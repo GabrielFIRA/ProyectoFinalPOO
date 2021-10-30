@@ -1,4 +1,4 @@
-package prisma;
+package Modelos;
 public class Proyectos { 
     //sinceramente esto lo estoy usando como estructura  
     private String m_FechaIngreso;

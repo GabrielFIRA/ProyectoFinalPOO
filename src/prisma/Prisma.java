@@ -1,4 +1,6 @@
 package prisma;
+import Modelos.Trabajadores;
+import Modelos.Proyectos;
 import java.util.Scanner;
 public class Prisma {
     public static void main(String[] args) {

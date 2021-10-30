@@ -1,4 +1,7 @@
-package prisma;
+package Modelos;
+
+import Modelos.Proyectos;
+
 public class Trabajadores {
     private boolean m_ListaNegra;
     private int ID;
