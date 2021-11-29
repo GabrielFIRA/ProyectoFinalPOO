@@ -14,8 +14,6 @@ import javax.swing.JOptionPane;
  */
 public class FrmModificarT extends javax.swing.JFrame {
     DaoTrabajador lista = new DaoTrabajador();
-    int posActual = 0;
-    private boolean esNuevo;
     String numCedula = "";
 
     /**
@@ -23,6 +21,13 @@ public class FrmModificarT extends javax.swing.JFrame {
      */
     public FrmModificarT() {
         initComponents();
+    }
+    
+    public void setDaoT(DaoTrabajador lista, String numCedula){
+        this.lista = lista;
+        this.numCedula = numCedula;
+        LbNumCedula.setText(numCedula);
+        
     }
 
     /**
@@ -34,13 +39,6 @@ public class FrmModificarT extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jToolBar1 = new javax.swing.JToolBar();
-        btnAnteriorT = new javax.swing.JButton();
-        LbContador = new javax.swing.JLabel();
-        btnSiguienteT = new javax.swing.JButton();
-        jSeparator4 = new javax.swing.JToolBar.Separator();
-        btnActualizarT = new javax.swing.JButton();
-        jSeparator5 = new javax.swing.JToolBar.Separator();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -50,53 +48,11 @@ public class FrmModificarT extends javax.swing.JFrame {
         TfApellidos = new javax.swing.JTextField();
         TfSeguroSocial = new javax.swing.JTextField();
         LbNumCedula = new javax.swing.JLabel();
+        btnGuardar = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("TRABAJADOR");
-
-        jToolBar1.setRollover(true);
-
-        btnAnteriorT.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\pista-anterior.png")); // NOI18N
-        btnAnteriorT.setText("Anterior");
-        btnAnteriorT.setFocusable(false);
-        btnAnteriorT.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnAnteriorT.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnAnteriorT.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAnteriorTActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(btnAnteriorT);
-
-        LbContador.setText("0 de 0");
-        jToolBar1.add(LbContador);
-
-        btnSiguienteT.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\siguiente-pista.png")); // NOI18N
-        btnSiguienteT.setText("Siguiente");
-        btnSiguienteT.setFocusable(false);
-        btnSiguienteT.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnSiguienteT.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnSiguienteT.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSiguienteTActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(btnSiguienteT);
-        jToolBar1.add(jSeparator4);
-
-        btnActualizarT.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\actualizar.png")); // NOI18N
-        btnActualizarT.setText("Actualizar");
-        btnActualizarT.setFocusable(false);
-        btnActualizarT.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnActualizarT.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnActualizarT.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActualizarTActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(btnActualizarT);
-        jToolBar1.add(jSeparator5);
 
         jPanel2.setBackground(new java.awt.Color(255, 204, 153));
         jPanel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -121,6 +77,13 @@ public class FrmModificarT extends javax.swing.JFrame {
 
         LbNumCedula.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
 
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -128,6 +91,7 @@ public class FrmModificarT extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnGuardar)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel3)
@@ -163,10 +127,12 @@ public class FrmModificarT extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(TfSeguroSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        btnVolver.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\anterior.png")); // NOI18N
+        btnVolver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario/iconos/anterior (1).png"))); // NOI18N
         btnVolver.setText("Volver");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -181,23 +147,16 @@ public class FrmModificarT extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(47, 47, 47)
-                        .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(96, 96, 96))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                .addGap(25, 25, 25)
+                .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -210,108 +169,46 @@ public class FrmModificarT extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_TfSeguroSocialActionPerformed
 
-    private void btnAnteriorTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorTActionPerformed
-        // TODO add your handling code here:
-        if (posActual == 0) posActual = lista.getListaTrabajador().size();
-        posActual--;
-        this.mostrarEnTF(posActual);
-    }//GEN-LAST:event_btnAnteriorTActionPerformed
-
-    private void btnSiguienteTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteTActionPerformed
-        // TODO add your handling code here:
-         posActual++;
-        if (posActual == lista.getListaTrabajador().size()) posActual = 0;  
-        this.mostrarEnTF(posActual);
-    }//GEN-LAST:event_btnSiguienteTActionPerformed
-
-    private void btnActualizarTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarTActionPerformed
-        // TODO add your handling code here:
-        String msn = lista.actualizarBD();
-        JOptionPane.showMessageDialog(this, msn, "Actualizar Base de Datos",
-                JOptionPane.INFORMATION_MESSAGE);
-        posActual =0;
-        mostrarEnTF(posActual);
-    }//GEN-LAST:event_btnActualizarTActionPerformed
-
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
         FrmTrabajador trab = new FrmTrabajador();
         trab.setVisible(true);
+        trab.setDaoT(lista);
         this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
- private void mostrarEnTF(int fila){
-        if(!lista.getListaTrabajador().isEmpty()){
-            TfNombre.setText(lista.getListaTrabajador().get(fila).getNombres());
-            TfApellidos.setText(lista.getListaTrabajador().get(fila).getApellidos());
-            numCedula = lista.getListaTrabajador().get(fila).getNumCedula();
-            LbNumCedula.setText(numCedula);
-            esNuevo=false;
 
-            int ultReg = lista.getListaTrabajador().size();
-            LbContador.setText("" + (fila + 1) + " de " + ultReg);
-            TfNombre.requestFocus();
-        }else{
-             limpiar();
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+        int b = lista.modificarTrabajador(TfNombre.getText(),
+                TfApellidos.getText(), LbNumCedula.getText(), TfSeguroSocial.getText());
+        if(b == 1){
+            JOptionPane.showMessageDialog(this, "Registro modificado correctamente...",
+                    "Trabajador", JOptionPane.INFORMATION_MESSAGE);
         }
-    }
+        else{
+            JOptionPane.showMessageDialog(this, "Error inesperado", "Trabajador", 
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
     private void limpiar(){
-        esNuevo = true;
-        TfNombre.setText(null);
-        TfApellidos.setText(null);
+        TfNombre.setText("");
+        TfApellidos.setText("");
+        TfSeguroSocial.setText("");
         TfNombre.requestFocus();
-    }
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmModificarT.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmModificarT.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmModificarT.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmModificarT.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmModificarT().setVisible(true);
-            }
-        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel LbContador;
     private javax.swing.JLabel LbNumCedula;
     private javax.swing.JTextField TfApellidos;
     private javax.swing.JTextField TfNombre;
     private javax.swing.JTextField TfSeguroSocial;
-    private javax.swing.JButton btnActualizarT;
-    private javax.swing.JButton btnAnteriorT;
-    private javax.swing.JButton btnSiguienteT;
+    private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnVolver;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JToolBar.Separator jSeparator4;
-    private javax.swing.JToolBar.Separator jSeparator5;
-    private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 }

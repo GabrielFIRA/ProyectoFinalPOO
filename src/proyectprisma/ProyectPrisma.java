@@ -5,9 +5,10 @@
  */
 package proyectprisma;
 
+import formularios.FrmDesempeño;
 import formularios.FrmInicio;
 import formularios.FrmLogin;
-import formularios.FrmTrabajador;
+
 
 
 
@@ -23,8 +24,10 @@ public class ProyectPrisma {
     public static void main(String[] args) {
         // TODO code application logic here
         
-        FrmLogin log = new FrmLogin();
-        log.setVisible(true);   
+//        FrmLogin log = new FrmLogin();
+//        log.setVisible(true);   
+        FrmInicio d = new FrmInicio();
+        d.setVisible(true);
   
     }
     

@@ -16,12 +16,17 @@ public class FrmModificarP extends javax.swing.JFrame {
     DaoProyecto lista = new DaoProyecto();
     int posActual = 0;
     private boolean esNuevo;
-
+    private int IdProyecto;
     /**
      * Creates new form FrmModificarP
      */
     public FrmModificarP() {
         initComponents();
+    }
+    
+    public void setDaoP(DaoProyecto dao, int IdProyecto){
+        lista = dao;
+        this.IdProyecto = IdProyecto;
     }
 
     /**
@@ -33,69 +38,27 @@ public class FrmModificarP extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jToolBar1 = new javax.swing.JToolBar();
-        btnAnteriorT = new javax.swing.JButton();
-        LbContador = new javax.swing.JLabel();
-        btnSiguienteT = new javax.swing.JButton();
-        jSeparator4 = new javax.swing.JToolBar.Separator();
-        btnActualizarT = new javax.swing.JButton();
-        jSeparator5 = new javax.swing.JToolBar.Separator();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         TfNombreProyecto = new javax.swing.JTextField();
+        btnGuardar = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("PROYECTO");
-
-        jToolBar1.setRollover(true);
-
-        btnAnteriorT.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\pista-anterior.png")); // NOI18N
-        btnAnteriorT.setText("Anterior");
-        btnAnteriorT.setFocusable(false);
-        btnAnteriorT.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnAnteriorT.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnAnteriorT.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAnteriorTActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(btnAnteriorT);
-
-        LbContador.setText("0 de 0");
-        jToolBar1.add(LbContador);
-
-        btnSiguienteT.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\siguiente-pista.png")); // NOI18N
-        btnSiguienteT.setText("Siguiente");
-        btnSiguienteT.setFocusable(false);
-        btnSiguienteT.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnSiguienteT.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnSiguienteT.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSiguienteTActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(btnSiguienteT);
-        jToolBar1.add(jSeparator4);
-
-        btnActualizarT.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\actualizar.png")); // NOI18N
-        btnActualizarT.setText("Actualizar");
-        btnActualizarT.setFocusable(false);
-        btnActualizarT.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnActualizarT.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnActualizarT.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActualizarTActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(btnActualizarT);
-        jToolBar1.add(jSeparator5);
 
         jPanel1.setBackground(new java.awt.Color(255, 204, 153));
         jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel1.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
         jLabel1.setText("Nombre del Proyecto: ");
+
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -106,19 +69,22 @@ public class FrmModificarP extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(TfNombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(38, 38, 38)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(TfNombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TfNombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
-        btnVolver.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\anterior.png")); // NOI18N
+        btnVolver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario/iconos/anterior (1).png"))); // NOI18N
         btnVolver.setText("Volver");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -131,73 +97,50 @@ public class FrmModificarP extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(btnVolver)
-                .addGap(51, 51, 51)
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnVolver)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnVolver))
+                .addContainerGap()
+                .addComponent(btnVolver)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 23, Short.MAX_VALUE))
+                .addGap(0, 12, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAnteriorTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorTActionPerformed
-        // TODO add your handling code here:
-        if (posActual == 0) posActual = lista.getListaProyecto().size();
-        posActual--;
-        this.mostrarEnTF(posActual);
-    }//GEN-LAST:event_btnAnteriorTActionPerformed
-
-    private void btnSiguienteTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteTActionPerformed
-        // TODO add your handling code here:
-        posActual++;
-        if (posActual == lista.getListaProyecto().size()) posActual = 0;  
-        this.mostrarEnTF(posActual);
-    }//GEN-LAST:event_btnSiguienteTActionPerformed
-
-    private void btnActualizarTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarTActionPerformed
-        // TODO add your handling code here:
-        String msn = lista.actualizarBD();
-        JOptionPane.showMessageDialog(this, msn, "Actualizar Base de Datos",
-                JOptionPane.INFORMATION_MESSAGE);
-        posActual =0;
-        mostrarEnTF(posActual);
-    }//GEN-LAST:event_btnActualizarTActionPerformed
-
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
         FrmProyecto proy = new FrmProyecto();
         proy.setVisible(true);
+        proy.setDaoP(lista);
         this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 
-    private void mostrarEnTF(int fila){
-        if(!lista.getListaProyecto().isEmpty()){
-            TfNombreProyecto.setText(lista.getListaProyecto().get(fila).getNombreProyecto());
-            esNuevo=false;
-
-            int ultReg = lista.getListaProyecto().size();
-            LbContador.setText("" + (fila + 1) + " de " + ultReg);
-            TfNombreProyecto.requestFocus();
-        }else{
-             limpiar();
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+        int b = lista.modificarProyecto(IdProyecto, TfNombreProyecto.getText());
+        if(b == 1){
+            JOptionPane.showMessageDialog(this, "Registro modificado correctamente...",
+                    "Proyecto", JOptionPane.INFORMATION_MESSAGE);
+            
         }
-    }
+        else{
+            JOptionPane.showMessageDialog(this, "Error inesperado", "Proyecto", 
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
     
       private void limpiar(){
         esNuevo = true;
@@ -241,16 +184,10 @@ public class FrmModificarP extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel LbContador;
     private javax.swing.JTextField TfNombreProyecto;
-    private javax.swing.JButton btnActualizarT;
-    private javax.swing.JButton btnAnteriorT;
-    private javax.swing.JButton btnSiguienteT;
+    private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnVolver;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JToolBar.Separator jSeparator4;
-    private javax.swing.JToolBar.Separator jSeparator5;
-    private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 }

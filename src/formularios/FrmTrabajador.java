@@ -16,7 +16,6 @@ import javax.swing.JOptionPane;
 public class FrmTrabajador extends javax.swing.JFrame {
     DaoTrabajador lista = new DaoTrabajador();
     private boolean esNuevo;
-    String numCedula = "";
     int posActual = 0;
 
     /**
@@ -24,6 +23,11 @@ public class FrmTrabajador extends javax.swing.JFrame {
      */
     public FrmTrabajador() {
         initComponents();
+        mostrarEnTF(0);
+    }
+    
+    public void setDaoT(DaoTrabajador lista){
+        this.lista = lista;
     }
 
     /**
@@ -36,6 +40,8 @@ public class FrmTrabajador extends javax.swing.JFrame {
     private void initComponents() {
 
         jToolBar1 = new javax.swing.JToolBar();
+        btnVolver = new javax.swing.JButton();
+        jSeparator7 = new javax.swing.JToolBar.Separator();
         btnNuevoT = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
         btnGuardarT = new javax.swing.JButton();
@@ -48,7 +54,7 @@ public class FrmTrabajador extends javax.swing.JFrame {
         jSeparator4 = new javax.swing.JToolBar.Separator();
         btnActualizarT = new javax.swing.JButton();
         jSeparator5 = new javax.swing.JToolBar.Separator();
-        jButton1 = new javax.swing.JButton();
+        btnModificar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -60,15 +66,26 @@ public class FrmTrabajador extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         TfSeguroSocial = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        btnVolver = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("TRABAJADOR");
-        setPreferredSize(new java.awt.Dimension(700, 500));
 
         jToolBar1.setRollover(true);
 
-        btnNuevoT.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\agregar-usuario.png")); // NOI18N
+        btnVolver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario/iconos/anterior (1).png"))); // NOI18N
+        btnVolver.setText("Volver");
+        btnVolver.setFocusable(false);
+        btnVolver.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnVolver.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnVolver);
+        jToolBar1.add(jSeparator7);
+
+        btnNuevoT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario/iconos/agregar-usuario.png"))); // NOI18N
         btnNuevoT.setText("Nuevo");
         btnNuevoT.setFocusable(false);
         btnNuevoT.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -81,7 +98,7 @@ public class FrmTrabajador extends javax.swing.JFrame {
         jToolBar1.add(btnNuevoT);
         jToolBar1.add(jSeparator1);
 
-        btnGuardarT.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\disquete.png")); // NOI18N
+        btnGuardarT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario/iconos/disquete.png"))); // NOI18N
         btnGuardarT.setText("Guardar");
         btnGuardarT.setFocusable(false);
         btnGuardarT.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -94,7 +111,7 @@ public class FrmTrabajador extends javax.swing.JFrame {
         jToolBar1.add(btnGuardarT);
         jToolBar1.add(jSeparator2);
 
-        btnEliminarT.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\dejar-de-seguir.png")); // NOI18N
+        btnEliminarT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario/iconos/dejar-de-seguir.png"))); // NOI18N
         btnEliminarT.setText("Eliminar");
         btnEliminarT.setFocusable(false);
         btnEliminarT.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -107,7 +124,7 @@ public class FrmTrabajador extends javax.swing.JFrame {
         jToolBar1.add(btnEliminarT);
         jToolBar1.add(jSeparator3);
 
-        btnAnteriorT.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\pista-anterior.png")); // NOI18N
+        btnAnteriorT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario/iconos/pista-anterior.png"))); // NOI18N
         btnAnteriorT.setText("Anterior");
         btnAnteriorT.setFocusable(false);
         btnAnteriorT.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -122,7 +139,7 @@ public class FrmTrabajador extends javax.swing.JFrame {
         LbContador.setText("0 de 0");
         jToolBar1.add(LbContador);
 
-        btnSiguienteT.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\siguiente-pista.png")); // NOI18N
+        btnSiguienteT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario/iconos/siguiente-pista.png"))); // NOI18N
         btnSiguienteT.setText("Siguiente");
         btnSiguienteT.setFocusable(false);
         btnSiguienteT.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -135,7 +152,7 @@ public class FrmTrabajador extends javax.swing.JFrame {
         jToolBar1.add(btnSiguienteT);
         jToolBar1.add(jSeparator4);
 
-        btnActualizarT.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\actualizar.png")); // NOI18N
+        btnActualizarT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario/iconos/actualizar.png"))); // NOI18N
         btnActualizarT.setText("Actualizar");
         btnActualizarT.setFocusable(false);
         btnActualizarT.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -148,17 +165,17 @@ public class FrmTrabajador extends javax.swing.JFrame {
         jToolBar1.add(btnActualizarT);
         jToolBar1.add(jSeparator5);
 
-        jButton1.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\usuario.png")); // NOI18N
-        jButton1.setText("Modificar");
-        jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario/iconos/usuario.png"))); // NOI18N
+        btnModificar.setText("Modificar");
+        btnModificar.setFocusable(false);
+        btnModificar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnModificar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnModificarActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton1);
+        jToolBar1.add(btnModificar);
 
         jPanel1.setBackground(new java.awt.Color(255, 204, 153));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(""), "Trabajador", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BELOW_TOP, new java.awt.Font("Monospaced", 0, 13))); // NOI18N
@@ -242,40 +259,24 @@ public class FrmTrabajador extends javax.swing.JFrame {
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
-        btnVolver.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\anterior.png")); // NOI18N
-        btnVolver.setText("Volver");
-        btnVolver.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVolverActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(45, 45, 45)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(67, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnVolver)
-                .addGap(40, 40, 40)
-                .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE))
+                .addContainerGap(140, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         pack();
@@ -289,38 +290,42 @@ public class FrmTrabajador extends javax.swing.JFrame {
 
     private void btnGuardarTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarTActionPerformed
         // TODO add your handling code here:
-              if(TfNombre.getText().equals(null)){
-            JOptionPane.showMessageDialog(this, "Debe ingresar un nombre", "Trabajador",
-                    JOptionPane.WARNING_MESSAGE);
+        if(TfNombre.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Debe ingresar un nombre", 
+                    "Trabajador", JOptionPane.WARNING_MESSAGE);
             this.TfNombre.requestFocus();
             return;
         }
-        if(TfApellido.getText().equals(null)){
-            JOptionPane.showMessageDialog(this, "Debe ingresar un apellido", "Trabajador",
-                    JOptionPane.WARNING_MESSAGE);
+        if(TfApellido.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Debe ingresar un apellido", 
+                    "Trabajador", JOptionPane.WARNING_MESSAGE);
             this.TfApellido.requestFocus();
             return;
         }
-        if(TfNumCedula.getText().equals(null)){
-            JOptionPane.showMessageDialog(this, "Debe ingresar un número de Cédula", "Trabajador",
-                    JOptionPane.WARNING_MESSAGE);
+        if(TfNumCedula.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Debe ingresar un número de Cédula",
+                    "Trabajador", JOptionPane.WARNING_MESSAGE);
             this.TfNumCedula.requestFocus();
             return;
          }
-        if(TfSeguroSocial.getText().equals(null)){
-            JOptionPane.showMessageDialog(this, "Debe ingresar un número de Seguro Social", "Trabajador",
-                    JOptionPane.WARNING_MESSAGE);
+        if(TfSeguroSocial.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Debe ingresar un número de Seguro Social",
+                    "Trabajador", JOptionPane.WARNING_MESSAGE);
             this.TfSeguroSocial.requestFocus();
             return;
         }
         int b=0;
-        if (esNuevo ){
-            b = lista.agregarTrabajador(TfNombre.getText(), TfApellido.getText(), TfNumCedula.getText(), TfSeguroSocial.getText());
-            
+        if (esNuevo){
+            b = lista.agregarTrabajador(TfNombre.getText(), TfApellido.getText(),
+                    TfNumCedula.getText(), TfSeguroSocial.getText());
         }
         if(b == 1){
             JOptionPane.showMessageDialog(this, "Registro guardado...", "Trabajador",
                     JOptionPane.INFORMATION_MESSAGE);
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Error inesperado...", "Trabajador",
+                    JOptionPane.ERROR_MESSAGE);
         }
         this.mostrarEnTF(0);
         limpiar();
@@ -333,7 +338,7 @@ public class FrmTrabajador extends javax.swing.JFrame {
                 " " + this.TfApellido.getText() + "?", "Trabajador",
                  JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (resp == 0){
-            int b = lista.eliminarTrabajador(numCedula);
+            int b = lista.eliminarTrabajador(TfNumCedula.getText());
             if(b==1){
                 JOptionPane.showMessageDialog(this, "Registro eliminado satisfactoriamente"
                 , "Trabajador", JOptionPane.INFORMATION_MESSAGE);
@@ -367,12 +372,13 @@ public class FrmTrabajador extends javax.swing.JFrame {
         mostrarEnTF(posActual);
     }//GEN-LAST:event_btnActualizarTActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
         FrmModificarT mod = new FrmModificarT();
         mod.setVisible(true);
+        mod.setDaoT(lista, TfNumCedula.getText());
         this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
@@ -382,10 +388,12 @@ public class FrmTrabajador extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void mostrarEnTF(int fila){
-        if(lista.getListaTrabajador().isEmpty()){
+        if(!lista.getListaTrabajador().isEmpty()){
             TfNombre.setText(lista.getListaTrabajador().get(fila).getNombres());
             TfApellido.setText(lista.getListaTrabajador().get(fila).getApellidos());
-            numCedula= lista.getListaTrabajador().get(fila).getNumCedula();
+            TfNumCedula.setText(lista.getListaTrabajador().get(fila).getNumCedula());
+            TfSeguroSocial.setText(lista.getListaTrabajador().get(fila).getNumSeguroSocial());
+            
             esNuevo=false;
 
             int ultReg = lista.getListaTrabajador().size();
@@ -448,10 +456,10 @@ public class FrmTrabajador extends javax.swing.JFrame {
     private javax.swing.JButton btnAnteriorT;
     private javax.swing.JButton btnEliminarT;
     private javax.swing.JButton btnGuardarT;
+    private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnNuevoT;
     private javax.swing.JButton btnSiguienteT;
     private javax.swing.JButton btnVolver;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -464,6 +472,7 @@ public class FrmTrabajador extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator4;
     private javax.swing.JToolBar.Separator jSeparator5;
+    private javax.swing.JToolBar.Separator jSeparator7;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 }

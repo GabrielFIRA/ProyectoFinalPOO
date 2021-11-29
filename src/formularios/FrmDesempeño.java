@@ -1,5 +1,10 @@
 package formularios;
 
+import dao.DaoDesempeño;
+import dao.DaoProyecto;
+import dao.DaoTrabajador;
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -11,13 +16,70 @@ package formularios;
  * @author Andreita
  */
 public class FrmDesempeño extends javax.swing.JFrame {
-
+    private DaoDesempeño daoD = new DaoDesempeño();
+    private DaoTrabajador daoT = new DaoTrabajador();
+    private DaoProyecto daoP = new DaoProyecto();
+    private int posActualTrab = 0;
+    private int posActualProy = 0;
+    private int idDesempeño = 0;
+    private boolean esNuevo;
+    
     /**
      * Creates new form FrmDesempeño
      */
     public FrmDesempeño() {
+        idDesempeño = daoD.getListaDesempeño().size();
         initComponents();
+        mostrarEnTF(0, 0);
     }
+    private void mostrarEnTF(int fila1 , int fila2){
+        if(!daoT.getListaTrabajador().isEmpty() && !daoP.getListaProyecto().isEmpty()){
+            
+            String numCedula = daoT.getListaTrabajador().get(fila1).getNumCedula();
+            int IdProyecto = daoP.getListaProyecto().get(fila2).getIdProyecto();
+            
+            LbIdProyecto.setText("" + IdProyecto);
+            LbNumCedula.setText("" + numCedula);
+            
+            
+            if(daoD.buscarDesempeño(numCedula, IdProyecto) != null){
+                LbIdDesempeño.setText("" + daoD.buscarDesempeño(numCedula, IdProyecto).getIdDesempeño());
+                TfPuesto.setText(daoD.buscarDesempeño(numCedula, IdProyecto).getPuesto());
+                TfCalificacion.setText("" + daoD.buscarDesempeño(numCedula, IdProyecto).getCalificacion());
+                TfSalario.setText("" + daoD.buscarDesempeño(numCedula, IdProyecto).getSalario());
+                TfFechaI.setText(daoD.buscarDesempeño(numCedula, IdProyecto).getFechaIngreso());
+                TfFechaS.setText(daoD.buscarDesempeño(numCedula, IdProyecto).getFechaSalida());
+                TfRazon.setText(daoD.buscarDesempeño(numCedula, IdProyecto).getRazonSalida());
+            }
+            else{
+                limpiar();
+            }
+            
+            esNuevo=false;
+
+            int ultReg1 = daoT.getListaTrabajador().size();
+            int ultReg2 = daoP.getListaProyecto().size();
+            
+            LbContadorT.setText("" + (fila1 + 1) + " de " + ultReg1);
+            LbContadorP.setText("" + (fila2 + 1) + " de " + ultReg2);
+            
+            TfPuesto.requestFocus();
+        }else{
+             limpiar();
+        }
+    }
+    /**
+     * Limpia los textFields
+     */
+    private void limpiar(){
+        esNuevo = true;
+        LbIdDesempeño.setText("");
+        TfPuesto.setText("");
+        TfCalificacion.setText("");
+        TfSalario.setText("");
+        TfRazon.setText("");
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -56,7 +118,6 @@ public class FrmDesempeño extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         LbIdProyecto = new javax.swing.JLabel();
@@ -65,12 +126,11 @@ public class FrmDesempeño extends javax.swing.JFrame {
         TfSalario = new javax.swing.JTextField();
         CbNotas = new javax.swing.JComboBox<>();
         btnMostarNota = new javax.swing.JButton();
-        TfIngreso = new javax.swing.JTextField();
-        TfSalida = new javax.swing.JTextField();
-        TfPeriodo = new javax.swing.JTextField();
-        jTextField1 = new javax.swing.JTextField();
+        TfRazon = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         TfCalificacion = new javax.swing.JTextField();
+        TfFechaI = new javax.swing.JTextField();
+        TfFechaS = new javax.swing.JTextField();
         btnVolver = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -78,15 +138,20 @@ public class FrmDesempeño extends javax.swing.JFrame {
 
         jToolBar1.setRollover(true);
 
-        btnNuevo.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\agregar-archivo.png")); // NOI18N
+        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario/iconos/agregar-archivo.png"))); // NOI18N
         btnNuevo.setText("Nuevo");
         btnNuevo.setFocusable(false);
         btnNuevo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnNuevo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btnNuevo);
         jToolBar1.add(jSeparator1);
 
-        btnModificar.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\editar.png")); // NOI18N
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario/iconos/editar.png"))); // NOI18N
         btnModificar.setText("Modificar");
         btnModificar.setFocusable(false);
         btnModificar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -99,23 +164,33 @@ public class FrmDesempeño extends javax.swing.JFrame {
         jToolBar1.add(btnModificar);
         jToolBar1.add(jSeparator2);
 
-        btnEliminar.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\basura.png")); // NOI18N
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario/iconos/basura.png"))); // NOI18N
         btnEliminar.setText("Eliminar");
         btnEliminar.setFocusable(false);
         btnEliminar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnEliminar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btnEliminar);
         jToolBar1.add(jSeparator3);
 
-        btnGuardar.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\disquete.png")); // NOI18N
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario/iconos/disquete.png"))); // NOI18N
         btnGuardar.setText("Guardar");
         btnGuardar.setFocusable(false);
         btnGuardar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnGuardar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btnGuardar);
         jToolBar1.add(jSeparator4);
 
-        btnActualizarBD.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\actualizar.png")); // NOI18N
+        btnActualizarBD.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario/iconos/actualizar.png"))); // NOI18N
         btnActualizarBD.setText("Actualizar BD");
         btnActualizarBD.setFocusable(false);
         btnActualizarBD.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -123,39 +198,59 @@ public class FrmDesempeño extends javax.swing.JFrame {
         jToolBar1.add(btnActualizarBD);
         jToolBar1.add(jSeparator5);
 
-        btnTrabAnterior.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\anterior trab.png")); // NOI18N
+        btnTrabAnterior.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario/iconos/pista-anterior.png"))); // NOI18N
         btnTrabAnterior.setText("Trabajador Anterior");
         btnTrabAnterior.setFocusable(false);
         btnTrabAnterior.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnTrabAnterior.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnTrabAnterior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTrabAnteriorActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btnTrabAnterior);
 
         LbContadorT.setText("0 de 0 ");
         jToolBar1.add(LbContadorT);
 
-        btnSiguienteTrab.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\siguiente-simbolo-de-interfaz-dibujado-a-mano-de-usuario.png")); // NOI18N
+        btnSiguienteTrab.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario/iconos/siguiente-pista.png"))); // NOI18N
         btnSiguienteTrab.setText("Siguiente Trabajador");
         btnSiguienteTrab.setFocusable(false);
         btnSiguienteTrab.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnSiguienteTrab.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnSiguienteTrab.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiguienteTrabActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btnSiguienteTrab);
         jToolBar1.add(jSeparator6);
 
-        btnProyAnterior.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\anterior (1).png")); // NOI18N
+        btnProyAnterior.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario/iconos/anterior (1).png"))); // NOI18N
         btnProyAnterior.setText("Proyecto Anterior");
         btnProyAnterior.setFocusable(false);
         btnProyAnterior.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnProyAnterior.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnProyAnterior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProyAnteriorActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btnProyAnterior);
 
         LbContadorP.setText("0 de 0");
         jToolBar1.add(LbContadorP);
 
-        btnSiguienteProy.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\proximo.png")); // NOI18N
+        btnSiguienteProy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario/iconos/proximo.png"))); // NOI18N
         btnSiguienteProy.setText("Siguiente Proyecto");
         btnSiguienteProy.setFocusable(false);
         btnSiguienteProy.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnSiguienteProy.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnSiguienteProy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiguienteProyActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btnSiguienteProy);
         jToolBar1.add(jSeparator7);
 
@@ -183,9 +278,6 @@ public class FrmDesempeño extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
         jLabel9.setText("Fecha de Salida:");
 
-        jLabel10.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
-        jLabel10.setText("Período Contratado:");
-
         jLabel11.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
         jLabel11.setText("Razón de Salida:");
 
@@ -196,6 +288,11 @@ public class FrmDesempeño extends javax.swing.JFrame {
         CbNotas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nota 1", "Nota 2", "Nota 3" }));
 
         btnMostarNota.setText("Mostrar Nota");
+        btnMostarNota.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMostarNotaActionPerformed(evt);
+            }
+        });
 
         jLabel13.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
         jLabel13.setText("Calificación: ");
@@ -205,18 +302,24 @@ public class FrmDesempeño extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel8))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(34, 34, 34)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel9)
+                                    .addComponent(jLabel11)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel8)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(TfIngreso)
-                            .addComponent(TfSalida)
-                            .addComponent(TfPeriodo)))
+                            .addComponent(TfFechaI)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(TfRazon, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(TfFechaS, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -224,17 +327,11 @@ public class FrmDesempeño extends javax.swing.JFrame {
                             .addComponent(jLabel12))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(TfSalario)
+                            .addComponent(TfSalario, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(CbNotas, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnMostarNota, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 154, Short.MAX_VALUE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1))
+                                .addGap(18, 18, 18)
+                                .addComponent(btnMostarNota, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(60, 60, 60)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -254,8 +351,8 @@ public class FrmDesempeño extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel13)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(TfCalificacion, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)))))
-                .addContainerGap(225, Short.MAX_VALUE))
+                                .addComponent(TfCalificacion, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)))))
+                .addGap(439, 439, 439))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -280,7 +377,7 @@ public class FrmDesempeño extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
                     .addComponent(TfCalificacion, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE))
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(TfSalario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -289,29 +386,27 @@ public class FrmDesempeño extends javax.swing.JFrame {
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(CbNotas, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnMostarNota, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(14, 14, 14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(TfFechaI, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(TfIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(14, 14, 14)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TfSalida, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TfPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(13, 13, 13)
-                        .addComponent(jTextField1)))
+                        .addGap(20, 20, 20)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(TfFechaS, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(TfRazon, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        btnVolver.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\anterior.png")); // NOI18N
+        btnVolver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario/iconos/anterior (1).png"))); // NOI18N
         btnVolver.setText("Volver");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -323,16 +418,16 @@ public class FrmDesempeño extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(63, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnVolver)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -342,9 +437,9 @@ public class FrmDesempeño extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(btnVolver, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(32, 32, 32)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(79, Short.MAX_VALUE))
         );
 
         pack();
@@ -361,43 +456,142 @@ public class FrmDesempeño extends javax.swing.JFrame {
         // TODO add your handling code here:
         FrmModificarD des = new FrmModificarD();
         des.setVisible(true);
+        
         this.dispose();
     }//GEN-LAST:event_btnModificarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmDesempeño.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmDesempeño.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmDesempeño.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmDesempeño.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        // TODO add your handling code here:
+        this.limpiar();
+        
+        
+    }//GEN-LAST:event_btnNuevoActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmDesempeño().setVisible(true);
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+        if(TfPuesto.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Debe ingresar el puesto", "Desempeño",
+                    JOptionPane.WARNING_MESSAGE);
+            this.TfPuesto.requestFocus();
+            return;
+        }
+        
+        if(TfSalario.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Debe ingresar el salario", "Desempeño",
+                    JOptionPane.WARNING_MESSAGE);
+            this.TfSalario.requestFocus();
+            return;
+        }
+        
+        if(TfFechaI.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Debe ingresar la fecha de ingreso",
+                    "Desempeño", JOptionPane.WARNING_MESSAGE);
+            this.TfFechaI.requestFocus();
+            return;
+        }
+        
+        int b;
+        if(esNuevo){
+            b = daoD.agregarDesempeño(
+                    Double.parseDouble(TfCalificacion.getText()),
+                    TfFechaI.getText(),
+                    TfFechaS.getText(),
+                    (idDesempeño + 1),
+                    TfPuesto.getText(),
+                    TfRazon.getText(),
+                    Double.parseDouble(TfSalario.getText()),
+                    Integer.parseInt(LbIdProyecto.getText()),
+                    LbNumCedula.getText());
+            idDesempeño = daoD.getListaDesempeño().size();
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Error: ya existe este registro",
+                    "Desempeño",JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if(b == 1){
+            JOptionPane.showMessageDialog(this, "Registro guardado...", "Desempeño",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+        this.mostrarEnTF(0,0);
+        limpiar();
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnTrabAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTrabAnteriorActionPerformed
+        // TODO add your handling code here:
+        if (posActualTrab == 0) posActualTrab = daoT.getListaTrabajador().size();
+        posActualTrab--;
+        this.mostrarEnTF(posActualTrab, posActualProy);
+    }//GEN-LAST:event_btnTrabAnteriorActionPerformed
+
+    private void btnMostarNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostarNotaActionPerformed
+        // TODO add your handling code here:
+        String numCedula = daoT.getListaTrabajador().get(posActualTrab).getNumCedula();
+        int IdProyecto = daoP.getListaProyecto().get(posActualTrab).getIdProyecto();
+        String notas[] = daoD.buscarDesempeño(numCedula, IdProyecto).getNotasDisciplinarias();
+        
+        if(!notas[0].equals("") && CbNotas.getSelectedIndex() == 0){
+            JOptionPane.showMessageDialog(this, "Nota Disiplinaria:" + "\n" + 
+                    notas[0], "Desempeño", JOptionPane.INFORMATION_MESSAGE);
+        }
+        else if(!notas[1].equals("") && CbNotas.getSelectedIndex() == 1){
+            JOptionPane.showMessageDialog(this, "Nota Disiplinaria:" + "\n" + 
+                    notas[1], "Desempeño", JOptionPane.INFORMATION_MESSAGE);
+        }
+        else if(!notas[2].equals("") && CbNotas.getSelectedIndex() == 2){
+            JOptionPane.showMessageDialog(this, "Nota Disiplinaria:" + "\n" + 
+                    notas[2], "Desempeño", JOptionPane.INFORMATION_MESSAGE);
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "No hay notas disiplinarias", 
+                    "Desempeño", JOptionPane.WARNING_MESSAGE);
+        }
+        
+        
+        
+    }//GEN-LAST:event_btnMostarNotaActionPerformed
+
+    private void btnSiguienteTrabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteTrabActionPerformed
+        // TODO add your handling code here:
+        posActualTrab++;
+        if (posActualTrab == daoT.getListaTrabajador().size()) posActualTrab = 0;  
+        this.mostrarEnTF(posActualTrab, posActualProy);
+    }//GEN-LAST:event_btnSiguienteTrabActionPerformed
+
+    private void btnProyAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProyAnteriorActionPerformed
+        // TODO add your handling code here:
+        if (posActualProy == 0) posActualProy = daoP.getListaProyecto().size();
+        posActualProy--;
+        this.mostrarEnTF(posActualTrab, posActualProy);
+    }//GEN-LAST:event_btnProyAnteriorActionPerformed
+
+    private void btnSiguienteProyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteProyActionPerformed
+        // TODO add your handling code here:
+        posActualProy++;
+        if (posActualProy == daoP.getListaProyecto().size()) posActualProy = 0;  
+        this.mostrarEnTF(posActualTrab, posActualProy);
+    }//GEN-LAST:event_btnSiguienteProyActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+        int resp = JOptionPane.showConfirmDialog(this, 
+                "¿Realmente desea eliminar el Desempeño: " + 
+                        this.LbIdDesempeño.getText()+ "?","Desempeño", 
+                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        
+        if (resp == 0){
+            int b = daoD.eliminarDesempeño(Integer.parseInt(LbIdDesempeño.getText()));
+            if(b == 1){
+                JOptionPane.showMessageDialog(this, "Registro eliminado satisfactoriamente", 
+                        "Desempeño", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                JOptionPane.showMessageDialog(this, "Error inesperado, verifique y vuelva intentar",
+                        "Desempeño", JOptionPane.ERROR_MESSAGE);
             }
-        });
-    }
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> CbNotas;
@@ -407,11 +601,11 @@ public class FrmDesempeño extends javax.swing.JFrame {
     private javax.swing.JLabel LbIdProyecto;
     private javax.swing.JLabel LbNumCedula;
     private javax.swing.JTextField TfCalificacion;
-    private javax.swing.JTextField TfIngreso;
-    private javax.swing.JTextField TfPeriodo;
+    private javax.swing.JTextField TfFechaI;
+    private javax.swing.JTextField TfFechaS;
     private javax.swing.JTextField TfPuesto;
+    private javax.swing.JTextField TfRazon;
     private javax.swing.JTextField TfSalario;
-    private javax.swing.JTextField TfSalida;
     private javax.swing.JButton btnActualizarBD;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
@@ -423,7 +617,6 @@ public class FrmDesempeño extends javax.swing.JFrame {
     private javax.swing.JButton btnSiguienteTrab;
     private javax.swing.JButton btnTrabAnterior;
     private javax.swing.JButton btnVolver;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -442,7 +635,6 @@ public class FrmDesempeño extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator5;
     private javax.swing.JToolBar.Separator jSeparator6;
     private javax.swing.JToolBar.Separator jSeparator7;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 }

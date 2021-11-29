@@ -13,8 +13,8 @@ import javax.swing.JOptionPane;
  * @author Andreita
  */
 public class FrmProyecto extends javax.swing.JFrame {
-    private boolean esNuevo;
-    private DaoProyecto lista;
+    private boolean esNuevo; 
+    private DaoProyecto lista = new DaoProyecto();
     int posActual = 0;
     int IdProyecto = 0;
 
@@ -23,10 +23,15 @@ public class FrmProyecto extends javax.swing.JFrame {
      * Creates new form FrmProyecto
      */
     public FrmProyecto() {
+        IdProyecto = (lista.getListaProyecto().size());// cambiar
         initComponents();
-       
-        
+        mostrarEnTF(0);
     }
+    
+    public void setDaoP(DaoProyecto dao){
+        lista = dao;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -37,6 +42,8 @@ public class FrmProyecto extends javax.swing.JFrame {
     private void initComponents() {
 
         jToolBar1 = new javax.swing.JToolBar();
+        btnVolver = new javax.swing.JButton();
+        jSeparator6 = new javax.swing.JToolBar.Separator();
         btnNuevoT = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
         btnGuardarT = new javax.swing.JButton();
@@ -55,7 +62,6 @@ public class FrmProyecto extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         TfNombreProyecto = new javax.swing.JTextField();
         LbIdProyecto = new javax.swing.JLabel();
-        btnVolver = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("PROYECTO");
@@ -64,7 +70,17 @@ public class FrmProyecto extends javax.swing.JFrame {
         jToolBar1.setMaximumSize(new java.awt.Dimension(32769, 32769));
         jToolBar1.setMinimumSize(new java.awt.Dimension(450, 57));
 
-        btnNuevoT.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\agregar-usuario.png")); // NOI18N
+        btnVolver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario/iconos/anterior (1).png"))); // NOI18N
+        btnVolver.setText("Volver");
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnVolver);
+        jToolBar1.add(jSeparator6);
+
+        btnNuevoT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario/iconos/agregar-archivo.png"))); // NOI18N
         btnNuevoT.setText("Nuevo");
         btnNuevoT.setFocusable(false);
         btnNuevoT.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -77,7 +93,7 @@ public class FrmProyecto extends javax.swing.JFrame {
         jToolBar1.add(btnNuevoT);
         jToolBar1.add(jSeparator1);
 
-        btnGuardarT.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\disquete.png")); // NOI18N
+        btnGuardarT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario/iconos/disquete.png"))); // NOI18N
         btnGuardarT.setText("Guardar");
         btnGuardarT.setFocusable(false);
         btnGuardarT.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -90,7 +106,7 @@ public class FrmProyecto extends javax.swing.JFrame {
         jToolBar1.add(btnGuardarT);
         jToolBar1.add(jSeparator2);
 
-        btnEliminarT.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\dejar-de-seguir.png")); // NOI18N
+        btnEliminarT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario/iconos/basura.png"))); // NOI18N
         btnEliminarT.setText("Eliminar");
         btnEliminarT.setFocusable(false);
         btnEliminarT.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -103,7 +119,7 @@ public class FrmProyecto extends javax.swing.JFrame {
         jToolBar1.add(btnEliminarT);
         jToolBar1.add(jSeparator3);
 
-        btnAnteriorT.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\pista-anterior.png")); // NOI18N
+        btnAnteriorT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario/iconos/pista-anterior.png"))); // NOI18N
         btnAnteriorT.setText("Anterior");
         btnAnteriorT.setFocusable(false);
         btnAnteriorT.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -118,7 +134,7 @@ public class FrmProyecto extends javax.swing.JFrame {
         LbContador.setText("0 de 0");
         jToolBar1.add(LbContador);
 
-        btnSiguienteT.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\siguiente-pista.png")); // NOI18N
+        btnSiguienteT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario/iconos/siguiente-pista.png"))); // NOI18N
         btnSiguienteT.setText("Siguiente");
         btnSiguienteT.setFocusable(false);
         btnSiguienteT.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -131,7 +147,7 @@ public class FrmProyecto extends javax.swing.JFrame {
         jToolBar1.add(btnSiguienteT);
         jToolBar1.add(jSeparator4);
 
-        btnActualizarT.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\actualizar.png")); // NOI18N
+        btnActualizarT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario/iconos/actualizar.png"))); // NOI18N
         btnActualizarT.setText("Actualizar");
         btnActualizarT.setFocusable(false);
         btnActualizarT.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -144,7 +160,7 @@ public class FrmProyecto extends javax.swing.JFrame {
         jToolBar1.add(btnActualizarT);
         jToolBar1.add(jSeparator5);
 
-        btnModificarP.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\usuario.png")); // NOI18N
+        btnModificarP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario/iconos/editar.png"))); // NOI18N
         btnModificarP.setText("Modificar");
         btnModificarP.setFocusable(false);
         btnModificarP.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -188,19 +204,11 @@ public class FrmProyecto extends javax.swing.JFrame {
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(TfNombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(LbIdProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(LbIdProyecto, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
-
-        btnVolver.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\anterior.png")); // NOI18N
-        btnVolver.setText("Volver");
-        btnVolver.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVolverActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -208,24 +216,19 @@ public class FrmProyecto extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnVolver)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 44, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 105, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnVolver)
-                    .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22)
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         pack();
@@ -236,21 +239,31 @@ public class FrmProyecto extends javax.swing.JFrame {
         // TODO add your handling code here:
         limpiar();
         
+        
     }//GEN-LAST:event_btnNuevoTActionPerformed
 
     private void btnGuardarTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarTActionPerformed
         // TODO add your handling code here:
-        if(TfNombreProyecto.getText().equals(null)){
+        if(TfNombreProyecto.getText().equals("")){
             JOptionPane.showMessageDialog(this, "Debe ingresar un nombre", "Proyecto",
                     JOptionPane.WARNING_MESSAGE);
             this.TfNombreProyecto.requestFocus();
             return;
         }
         int b;
-        if (esNuevo ){
-            b = lista.agregarProyecto(0, TfNombreProyecto.getText());
+        if (esNuevo){            
+            if(lista.getListaProyecto().isEmpty()){
+                b = lista.agregarProyecto(1, TfNombreProyecto.getText());
+            }
+            else{
+                int IdMayor = lista.buscarIdMayor(); // creo que ya esta
+                
+                b = lista.agregarProyecto(IdMayor + 1, TfNombreProyecto.getText());
+            }
         }else{
-            b = lista.modificarProyecto(0, TfNombreProyecto.getText());
+            JOptionPane.showMessageDialog(this, "Error: Este proyecto ya existe", 
+                    "Proyecto", JOptionPane.WARNING_MESSAGE);
+            return;
         }
         if(b == 1){
             JOptionPane.showMessageDialog(this, "Registro guardado...", "Proyecto",
@@ -262,14 +275,16 @@ public class FrmProyecto extends javax.swing.JFrame {
 
     private void btnEliminarTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarTActionPerformed
         // TODO add your handling code here:
-          int resp = JOptionPane.showConfirmDialog(this, 
-                "¿Realmente desea eliminar el proyecto? " + this.TfNombreProyecto.getText(),"Proyecto",
-                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        int resp = JOptionPane.showConfirmDialog(this, 
+                "¿Realmente desea eliminar el proyecto " + 
+                        this.TfNombreProyecto.getText()+ "?","Proyecto", 
+                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        
         if (resp == 0){
-            int b = lista.eliminarProyecto(posActual);
+            int b = lista.eliminarProyecto(Integer.parseInt(LbIdProyecto.getText()));
             if(b==1){
-                JOptionPane.showMessageDialog(this, "Registro eliminado satisfactoriamente"
-                , "Proyecto", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Registro eliminado satisfactoriamente", 
+                        "Proyecto", JOptionPane.INFORMATION_MESSAGE);
             }else{
                 JOptionPane.showMessageDialog(this, "Error inesperado, verifique y vuelva intentar",
                         "Proyecto", JOptionPane.ERROR_MESSAGE);
@@ -296,7 +311,7 @@ public class FrmProyecto extends javax.swing.JFrame {
         String msn = lista.actualizarBD();
         JOptionPane.showMessageDialog(this, msn, "Actualizar Base de Datos",
                 JOptionPane.INFORMATION_MESSAGE);
-        posActual =0;
+        posActual = 0;
         mostrarEnTF(posActual);
     }//GEN-LAST:event_btnActualizarTActionPerformed
 
@@ -304,6 +319,8 @@ public class FrmProyecto extends javax.swing.JFrame {
         // TODO add your handling code here:
         FrmModificarP mod = new FrmModificarP();
         mod.setVisible(true);
+        int id = Integer.parseInt(LbIdProyecto.getText());
+        mod.setDaoP(lista, id);
         this.dispose();
     }//GEN-LAST:event_btnModificarPActionPerformed
 
@@ -317,13 +334,14 @@ public class FrmProyecto extends javax.swing.JFrame {
     private void limpiar(){
         esNuevo = true;
         TfNombreProyecto.setText("");
+        LbIdProyecto.setText("");
         TfNombreProyecto.requestFocus();
     }
     private void mostrarEnTF(int fila){
         if(!lista.getListaProyecto().isEmpty()){
             TfNombreProyecto.setText(lista.getListaProyecto().get(fila).getNombreProyecto());
-            IdProyecto= lista.getListaProyecto().get(fila).getIdProyecto();
-            LbIdProyecto.setText("" + fila);
+            LbIdProyecto.setText("" + (lista.getListaProyecto().get(fila).getIdProyecto()));
+            
             esNuevo=false;
 
             int ultReg = lista.getListaProyecto().size();
@@ -389,6 +407,7 @@ public class FrmProyecto extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator4;
     private javax.swing.JToolBar.Separator jSeparator5;
+    private javax.swing.JToolBar.Separator jSeparator6;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 }

@@ -16,7 +16,6 @@ public class Desempeño {
 	private int idProyecto;
 	private String[] notasDisciplinarias = {"", "", ""};
 	private String numCedula;
-	private int periodoContratado;
 	private String puesto;
 	private String razonSalida;
 	private double salario;
@@ -28,7 +27,7 @@ public class Desempeño {
     public Desempeño(double calificacion, int estado, String fechaIngreso, 
             String fechaSalida, int idDesempeño, int idProyecto, 
             String[] notasDisciplinarias,
-            String numCedula, int periodoContratado, String puesto, 
+            String numCedula, String puesto, // eliminar periodo contratado
             String razonSalida, double salario) {
 
         this.calificacion = calificacion;
@@ -38,7 +37,6 @@ public class Desempeño {
         this.idDesempeño = idDesempeño;
         this.idProyecto = idProyecto;
         this.numCedula = numCedula;
-        this.periodoContratado = periodoContratado;
         this.puesto = puesto;
         this.razonSalida = razonSalida;
         this.salario = salario;
@@ -47,7 +45,7 @@ public class Desempeño {
     }
     public Desempeño(double calificacion, int estado, String fechaIngreso, 
             String fechaSalida, int idDesempeño, int idProyecto, 
-            String numCedula, int periodoContratado, String puesto, 
+            String numCedula, String puesto, // eliminar periodo contratado
             String razonSalida, double salario){
         
         this.calificacion = calificacion;
@@ -57,7 +55,6 @@ public class Desempeño {
         this.idDesempeño = idDesempeño;
         this.idProyecto = idProyecto;
         this.numCedula = numCedula;
-        this.periodoContratado = periodoContratado;
         this.puesto = puesto;
         this.razonSalida = razonSalida;
         this.salario = salario;
@@ -144,14 +141,6 @@ public class Desempeño {
 
     public void setNumCedula(String numCedula) {
         this.numCedula = numCedula;
-    }
-
-    public int getPeriodoContratado() {
-        return periodoContratado;
-    }
-
-    public void setPeriodoContratado(int periodoContratado) {
-        this.periodoContratado = periodoContratado;
     }
 
     public String getPuesto() {

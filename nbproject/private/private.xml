@@ -3,13 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/andre/Documents/UCA-II%20Sem/POO/ProyectPriisma/src/formularios/FrmDesempeño.java</file>
-            <file>file:/C:/Users/andre/Documents/UCA-II%20Sem/POO/ProyectPriisma/src/formularios/FrmTrabajador.java</file>
-            <file>file:/C:/Users/andre/Documents/UCA-II%20Sem/POO/ProyectPriisma/src/proyectprisma/ProyectPriisma.java</file>
-            <file>file:/C:/Users/andre/Documents/UCA-II%20Sem/POO/ProyectPriisma/src/formularios/FrmInicio.java</file>
-            <file>file:/C:/Users/andre/Documents/UCA-II%20Sem/POO/ProyectPriisma/src/formularios/FrmModificarT.java</file>
-            <file>file:/C:/Users/andre/Documents/UCA-II%20Sem/POO/ProyectPriisma/src/formularios/FrmProyecto.java</file>
-            <file>file:/C:/Users/andre/Documents/UCA-II%20Sem/POO/ProyectPriisma/src/formularios/FrmLogin.java</file>
+            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/Prisma/src/formularios/FrmModificarD.java</file>
+            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/Prisma/src/formularios/FrmProyecto.java</file>
+            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/Prisma/src/dao/DaoProyecto.java</file>
+            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/Prisma/src/proyectprisma/ProyectPrisma.java</file>
+            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/Prisma/src/formularios/FrmModificarP.java</file>
+            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/Prisma/src/dao/DaoDesempeño.java</file>
+            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/Prisma/src/formularios/FrmDesempeño.java</file>
         </group>
     </open-files>
 </project-private>
