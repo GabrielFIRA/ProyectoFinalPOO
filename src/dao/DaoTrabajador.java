@@ -167,6 +167,7 @@ public class DaoTrabajador {
         try{
             eliminarTrabajador.setString(1, trabajador.getNumCedula());
             r = eliminarTrabajador.executeUpdate();
+            return r;
         }catch(SQLException ex){
             JOptionPane.showMessageDialog(null, ex.getMessage(),
                     "Error al eliminar en BD", JOptionPane.ERROR_MESSAGE);
@@ -229,7 +230,6 @@ public class DaoTrabajador {
             for(Trabajador tra: listaTrabajador){
                 if(tra.getNumCedula().equals(numCedula)){
                     tra.setEstado(3);
-                    System.out.println("check");
                     b = 1;
                     return b;
                 }

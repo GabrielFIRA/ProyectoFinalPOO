@@ -388,7 +388,8 @@ public class FrmTrabajador extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void mostrarEnTF(int fila){
-        if(!lista.getListaTrabajador().isEmpty()){
+        if(!lista.getListaTrabajador().isEmpty() && 
+                lista.getListaTrabajador().get(fila).getEstado() != 3){
             TfNombre.setText(lista.getListaTrabajador().get(fila).getNombres());
             TfApellido.setText(lista.getListaTrabajador().get(fila).getApellidos());
             TfNumCedula.setText(lista.getListaTrabajador().get(fila).getNumCedula());
@@ -401,6 +402,7 @@ public class FrmTrabajador extends javax.swing.JFrame {
             TfNombre.requestFocus();
         }else{
              limpiar();
+             LbContador.setText("" + (0) + " de " + 0);
         }
     }
     private void limpiar(){

@@ -338,7 +338,8 @@ public class FrmProyecto extends javax.swing.JFrame {
         TfNombreProyecto.requestFocus();
     }
     private void mostrarEnTF(int fila){
-        if(!lista.getListaProyecto().isEmpty()){
+        if(!lista.getListaProyecto().isEmpty() && 
+                lista.getListaProyecto().get(fila).getEstado() != 3){
             TfNombreProyecto.setText(lista.getListaProyecto().get(fila).getNombreProyecto());
             LbIdProyecto.setText("" + (lista.getListaProyecto().get(fila).getIdProyecto()));
             
@@ -350,6 +351,7 @@ public class FrmProyecto extends javax.swing.JFrame {
            
         }else{
              limpiar();
+             LbContador.setText("" + (0) + " de " + 0);
         }
     }
     /**
