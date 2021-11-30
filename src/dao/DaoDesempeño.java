@@ -252,6 +252,23 @@ public class DaoDesempeño {
         }
             return null;
     }
+    /**
+     * Busca el desempeño pero por el id de desempeño
+     * @param IdDesempeño
+     * @return Desempeño
+     */
+    public Desempeño buscarDesempeño(int IdDesempeño){
+        try{
+            for(Desempeño des: listaDesempeño){
+                if(des.getIdDesempeño() == IdDesempeño){
+                    return des;
+                }
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+            return null;
+    }
 
     /**
      * 
@@ -329,9 +346,8 @@ public class DaoDesempeño {
      * @return int
      */
     public int modificarDesempeño(int idDesempeño, int idProyecto, 
-            String numCedula, String fechaIngreso, String fechaSalida, //eliminar notas disiplinarias de los parametros?
-            double calificacion, String notasDisciplinarias,
-            int indexNotasDisiplinarias,
+            String numCedula, String fechaIngreso, String fechaSalida,
+            double calificacion,
             String razonSalida, double salario){
         int b =0;
         try{

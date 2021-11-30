@@ -32,6 +32,13 @@ public class FrmDesempeño extends javax.swing.JFrame {
         initComponents();
         mostrarEnTF(0, 0);
     }
+    
+    public void setDao(DaoDesempeño daoD, DaoTrabajador daoT, DaoProyecto daoP){
+        this.daoD = daoD;
+        this.daoT = daoT;
+        this.daoP = daoP;
+    }
+    
     private void mostrarEnTF(int fila1 , int fila2){
         if(!daoT.getListaTrabajador().isEmpty() && !daoP.getListaProyecto().isEmpty()){
             

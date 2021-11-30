@@ -5,17 +5,47 @@
  */
 package formularios;
 
+import dao.DaoDesempeño;
+import dao.DaoProyecto;
+import dao.DaoTrabajador;
+
 /**
  *
  * @author Andreita
  */
 public class FrmModificarD extends javax.swing.JFrame {
-
+    private DaoDesempeño daoD = new DaoDesempeño();
+    private DaoTrabajador daoT = new DaoTrabajador();
+    private DaoProyecto daoP = new DaoProyecto();
+    private int IdDesempeño;
+    
+    
     /**
      * Creates new form FrmModificarD
      */
     public FrmModificarD() {
+        
+        initComponents(); 
+        
+        
+    }
+    
+    public FrmModificarD(DaoDesempeño daoD, DaoTrabajador daoT, DaoProyecto daoP, int IdDesempeño) {
+        this.daoD = daoD;
+        this.daoT = daoT;
+        this.daoP = daoP;
+        this.IdDesempeño = IdDesempeño;
+        
         initComponents();
+        
+        LbNumCedula.setText(this.daoD.buscarDesempeño(this.IdDesempeño).getNumCedula());
+        LbIdProyecto.setText("" + this.daoD.buscarDesempeño(this.IdDesempeño).getIdProyecto());
+        LbIdDesempeño.setText("" + this.daoD.buscarDesempeño(this.IdDesempeño).getIdDesempeño());
+    }
+    
+    
+    public void setDao(DaoDesempeño daoD, DaoTrabajador daoT, DaoProyecto daoP, int IdDesempeño){
+        
     }
 
     /**
@@ -27,13 +57,6 @@ public class FrmModificarD extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jToolBar1 = new javax.swing.JToolBar();
-        btnAnteriorT = new javax.swing.JButton();
-        LbContador = new javax.swing.JLabel();
-        btnSiguienteT = new javax.swing.JButton();
-        jSeparator4 = new javax.swing.JToolBar.Separator();
-        btnActualizarT = new javax.swing.JButton();
-        jSeparator5 = new javax.swing.JToolBar.Separator();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -42,8 +65,8 @@ public class FrmModificarD extends javax.swing.JFrame {
         TfCalificacion = new javax.swing.JTextField();
         TfPuesto = new javax.swing.JTextField();
         TfSalario = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        LbIdDesempeño = new javax.swing.JLabel();
+        LbIdProyecto = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         LbNumCedula = new javax.swing.JLabel();
@@ -60,38 +83,11 @@ public class FrmModificarD extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("DESEMPEÑO");
-
-        jToolBar1.setRollover(true);
-
-        btnAnteriorT.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\pista-anterior.png")); // NOI18N
-        btnAnteriorT.setText("Anterior");
-        btnAnteriorT.setFocusable(false);
-        btnAnteriorT.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnAnteriorT.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(btnAnteriorT);
-
-        LbContador.setText("0 de 0");
-        jToolBar1.add(LbContador);
-
-        btnSiguienteT.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\siguiente-pista.png")); // NOI18N
-        btnSiguienteT.setText("Siguiente");
-        btnSiguienteT.setFocusable(false);
-        btnSiguienteT.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnSiguienteT.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(btnSiguienteT);
-        jToolBar1.add(jSeparator4);
-
-        btnActualizarT.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\actualizar.png")); // NOI18N
-        btnActualizarT.setText("Actualizar");
-        btnActualizarT.setFocusable(false);
-        btnActualizarT.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnActualizarT.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(btnActualizarT);
-        jToolBar1.add(jSeparator5);
 
         jPanel2.setBackground(new java.awt.Color(255, 204, 153));
         jPanel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -108,17 +104,9 @@ public class FrmModificarD extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
         jLabel4.setText("Salario:");
 
-        TfSalario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TfSalarioActionPerformed(evt);
-            }
-        });
+        LbIdDesempeño.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
 
-        jLabel6.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
-        jLabel6.setText("00");
-
-        jLabel5.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
-        jLabel5.setText("01");
+        LbIdProyecto.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
 
         jLabel7.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
         jLabel7.setText("Calificación:");
@@ -153,6 +141,13 @@ public class FrmModificarD extends javax.swing.JFrame {
 
         jButton3.setText("Modificar");
 
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -160,7 +155,7 @@ public class FrmModificarD extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap(142, Short.MAX_VALUE)
+                        .addContainerGap(249, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel12)
                             .addComponent(jLabel2)
@@ -187,15 +182,16 @@ public class FrmModificarD extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(TfSalida, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(LbNumCedula, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(LbIdProyecto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(LbIdDesempeño, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(TfPuesto, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(TfPeriodo)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
                         .addComponent(TfSalario)
                         .addComponent(TfCalificacion)
-                        .addComponent(TfEntrada)))
-                .addContainerGap(341, Short.MAX_VALUE))
+                        .addComponent(TfEntrada))
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -203,11 +199,11 @@ public class FrmModificarD extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(LbIdDesempeño, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(LbIdProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(11, 11, 11)
@@ -249,10 +245,12 @@ public class FrmModificarD extends javax.swing.JFrame {
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(73, 73, 73))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
-        btnVolver.setIcon(new javax.swing.ImageIcon("C:\\Users\\andre\\Downloads\\anterior.png")); // NOI18N
+        btnVolver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/formulario/iconos/anterior (1).png"))); // NOI18N
         btnVolver.setText("Volver");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -264,44 +262,53 @@ public class FrmModificarD extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(246, 246, 246))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnVolver, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap()
+                .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 554, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 583, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void TfSalarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TfSalarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TfSalarioActionPerformed
-
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
         FrmDesempeño des = new FrmDesempeño();
         des.setVisible(true);
+        des.setDao(daoD, daoT, daoP);
         this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+        int b = daoD.modificarDesempeño(
+                IdDesempeño,
+                Integer.parseInt(LbIdProyecto.getText()),
+                LbNumCedula.getText(),
+                TfEntrada.getText(),
+                TfSalida.getText(),
+                Double.parseDouble(TfCalificacion.getText()),
+                TfSalida.getText(),
+                Double.parseDouble(TfSalario.getText())
+        );
+        
+        
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -339,7 +346,8 @@ public class FrmModificarD extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel LbContador;
+    private javax.swing.JLabel LbIdDesempeño;
+    private javax.swing.JLabel LbIdProyecto;
     private javax.swing.JLabel LbNumCedula;
     private javax.swing.JTextField TfCalificacion;
     private javax.swing.JTextField TfEntrada;
@@ -347,9 +355,7 @@ public class FrmModificarD extends javax.swing.JFrame {
     private javax.swing.JTextField TfPuesto;
     private javax.swing.JTextField TfSalario;
     private javax.swing.JTextField TfSalida;
-    private javax.swing.JButton btnActualizarT;
-    private javax.swing.JButton btnAnteriorT;
-    private javax.swing.JButton btnSiguienteT;
+    private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnVolver;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -362,16 +368,11 @@ public class FrmModificarD extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JToolBar.Separator jSeparator4;
-    private javax.swing.JToolBar.Separator jSeparator5;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 }
