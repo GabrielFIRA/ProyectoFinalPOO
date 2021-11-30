@@ -16,14 +16,12 @@ public class FrmProyecto extends javax.swing.JFrame {
     private boolean esNuevo; 
     private DaoProyecto lista = new DaoProyecto();
     int posActual = 0;
-    int IdProyecto = 0;
 
 
     /**
      * Creates new form FrmProyecto
      */
     public FrmProyecto() {
-        IdProyecto = (lista.getListaProyecto().size());// cambiar
         initComponents();
         mostrarEnTF(0);
     }

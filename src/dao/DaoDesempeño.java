@@ -431,5 +431,19 @@ public class DaoDesempeño {
         return b;
     }
     
+    public int buscarMayor(){
+        int mayor = 0; 
+        try{
+            for(Desempeño d : listaDesempeño){
+                if(mayor < d.getIdDesempeño()){
+                    mayor = d.getIdDesempeño();
+                }
+            }
+            return mayor;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return mayor;
+    }
     
 }//end daoDesempe�o

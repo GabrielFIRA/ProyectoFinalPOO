@@ -21,14 +21,12 @@ public class FrmDesempeño extends javax.swing.JFrame {
     private DaoProyecto daoP = new DaoProyecto();
     private int posActualTrab = 0;
     private int posActualProy = 0;
-    private int idDesempeño = 0;
     private boolean esNuevo;
     
     /**
      * Creates new form FrmDesempeño
      */
     public FrmDesempeño() {
-        idDesempeño = daoD.getListaDesempeño().size();
         initComponents();
         mostrarEnTF(0, 0);
     }
@@ -499,17 +497,31 @@ public class FrmDesempeño extends javax.swing.JFrame {
         
         int b;
         if(esNuevo){
-            b = daoD.agregarDesempeño(
-                    Double.parseDouble(TfCalificacion.getText()),
-                    TfFechaI.getText(),
-                    TfFechaS.getText(),
-                    (idDesempeño + 1),
-                    TfPuesto.getText(),
-                    TfRazon.getText(),
-                    Double.parseDouble(TfSalario.getText()),
-                    Integer.parseInt(LbIdProyecto.getText()),
-                    LbNumCedula.getText());
-            idDesempeño = daoD.getListaDesempeño().size();
+            if(!daoD.getListaDesempeño().isEmpty()){
+                b = daoD.agregarDesempeño(
+                        Double.parseDouble(TfCalificacion.getText()),
+                        TfFechaI.getText(),
+                        TfFechaS.getText(),
+                        1,
+                        TfPuesto.getText(),
+                        TfRazon.getText(),
+                        Double.parseDouble(TfSalario.getText()),
+                        Integer.parseInt(LbIdProyecto.getText()),
+                        LbNumCedula.getText());
+            }
+            else{
+                int mayor = daoD.buscarMayor();
+                b = daoD.agregarDesempeño(
+                        Double.parseDouble(TfCalificacion.getText()),
+                        TfFechaI.getText(),
+                        TfFechaS.getText(),
+                        mayor,
+                        TfPuesto.getText(),
+                        TfRazon.getText(),
+                        Double.parseDouble(TfSalario.getText()),
+                        Integer.parseInt(LbIdProyecto.getText()),
+                        LbNumCedula.getText());
+            }
         }
         else{
             JOptionPane.showMessageDialog(this, "Error: ya existe este registro",
