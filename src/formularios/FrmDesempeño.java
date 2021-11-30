@@ -515,7 +515,7 @@ public class FrmDesempeño extends javax.swing.JFrame {
                         Double.parseDouble(TfCalificacion.getText()),
                         TfFechaI.getText(),
                         TfFechaS.getText(),
-                        mayor,
+                        mayor + 1,
                         TfPuesto.getText(),
                         TfRazon.getText(),
                         Double.parseDouble(TfSalario.getText()),
