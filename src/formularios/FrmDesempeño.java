@@ -22,6 +22,8 @@ public class FrmDesempeño extends javax.swing.JFrame {
     private int posActualTrab = 0;
     private int posActualProy = 0;
     private boolean esNuevo;
+    private String numCedula = "";
+    private int IdDesempeño = 0;
     
     /**
      * Creates new form FrmDesempeño
@@ -40,15 +42,16 @@ public class FrmDesempeño extends javax.swing.JFrame {
     private void mostrarEnTF(int fila1 , int fila2){
         if(!daoT.getListaTrabajador().isEmpty() && !daoP.getListaProyecto().isEmpty()){
             
-            String numCedula = daoT.getListaTrabajador().get(fila1).getNumCedula();
+            numCedula = daoT.getListaTrabajador().get(fila1).getNumCedula();
             int IdProyecto = daoP.getListaProyecto().get(fila2).getIdProyecto();
             
             LbIdProyecto.setText("" + IdProyecto);
             LbNumCedula.setText("" + numCedula);
             
             
-            if(daoD.buscarDesempeño(numCedula, IdProyecto) != null){
+            if(daoD.buscarDesempeño(numCedula, IdProyecto) != null ){
                 LbIdDesempeño.setText("" + daoD.buscarDesempeño(numCedula, IdProyecto).getIdDesempeño());
+                IdDesempeño = Integer.parseInt(LbIdDesempeño.getText());
                 TfPuesto.setText(daoD.buscarDesempeño(numCedula, IdProyecto).getPuesto());
                 TfCalificacion.setText("" + daoD.buscarDesempeño(numCedula, IdProyecto).getCalificacion());
                 TfSalario.setText("" + daoD.buscarDesempeño(numCedula, IdProyecto).getSalario());
@@ -459,7 +462,8 @@ public class FrmDesempeño extends javax.swing.JFrame {
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
-        FrmModificarD des = new FrmModificarD();
+        
+        FrmModificarD des = new FrmModificarD(daoD, daoT, daoP, IdDesempeño, numCedula);
         des.setVisible(true);
         
         this.dispose();

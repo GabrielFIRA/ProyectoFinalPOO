@@ -32,6 +32,10 @@ public class DaoDesempeño {
     public void finalize() throws Throwable {
 
     }
+    /**
+    * Establece conexion con la base de datos y prepara los enunciados a 
+    * insertar en el Query
+    */
     public DaoDesempeño(){
         try{
             conn = conexion.obtenerConexion();
@@ -42,7 +46,7 @@ public class DaoDesempeño {
                     + " notaDisciplinaria2, notaDisciplinaria3, numCedula, "
                     + " puesto, razonSalida, salario,"
                     + "fechaIngreso, fechaSalida)"
-                    + "Values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    + "Values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             modificarDesempeño = conn.prepareStatement("Update Desempeño set"
                     + " calificacion = ?,"
                     + " idProyecto = ?, notaDisciplinaria1 = ?,"
@@ -62,18 +66,18 @@ public class DaoDesempeño {
     }
 
     /**
-     * 
-     * @param calificacion    puede ser nulo
-     * @param fechaIngreso
-     * @param fechaSalida    puede ser nulo
-     * @param idDesempeño
-     * @param puesto
-     * @param razonSalida    puede ser nulo
-     * @param salario
-     * @param idProyecto
-     * @param numCedula
+    * Agrega elementos al arreglo de desempeño
+    * @param calificacion    puede ser nulo
+    * @param fechaIngreso
+    * @param fechaSalida    puede ser nulo
+    * @param idDesempeño
+    * @param puesto
+    * @param razonSalida    puede ser nulo
+    * @param salario
+    * @param idProyecto
+    * @param numCedula
      * @return int
-     */
+    */
     public int agregarDesempeño(double calificacion, 
             String fechaIngreso, String fechaSalida, int idDesempeño,
             String puesto, String razonSalida, double salario,
@@ -99,7 +103,11 @@ public class DaoDesempeño {
         }
             return b;
     }
-
+    /**
+    * Actualiza la base de datos e informa al usuario si la accion fue
+    * ejecutada con exito y/o si ocurrieron errores
+    * @return 
+    */
     public String actualizarBD(){
         String msn ="";
         String msnError = "Errores en:";
@@ -150,10 +158,10 @@ public class DaoDesempeño {
     }
 
     /**
-     * 
-     * @param des
-     * @return 
-     */
+    * metodo para insertar informacion en la base de datos
+    * @param des
+    * @return 
+    */
     public int agregarDesempeñoBD(Desempeño des){
         int r = 0;
 
@@ -166,11 +174,11 @@ public class DaoDesempeño {
             insertarDesempeño.setString(5, temp[1]);
             insertarDesempeño.setString(6, temp[2]);
             insertarDesempeño.setString(7, des.getNumCedula());
-            insertarDesempeño.setString(9, des.getPuesto());
-            insertarDesempeño.setString(10, des.getRazonSalida());
-            insertarDesempeño.setDouble(11, des.getSalario());
-            insertarDesempeño.setString(12, des.getFechaIngreso());
-            insertarDesempeño.setString(13, des.getFechaSalida());
+            insertarDesempeño.setString(8, des.getPuesto());
+            insertarDesempeño.setString(9, des.getRazonSalida());
+            insertarDesempeño.setDouble(10, des.getSalario());
+            insertarDesempeño.setString(11, des.getFechaIngreso());
+            insertarDesempeño.setString(12, des.getFechaSalida());
 
 
 
@@ -184,10 +192,10 @@ public class DaoDesempeño {
     }
 
     /**
-     * 
-     * @param des
-     * @return 
-     */
+    * Metodo para eliminar informacion en la base de datos
+    * @param des
+    * @return 
+    */
     public int eliminarDesempeñoBD(Desempeño des){
         int r = 0;
         try{
@@ -203,10 +211,10 @@ public class DaoDesempeño {
     }
 
     /**
-     * 
-     * @param des
-     * @return 
-     */
+    * Modifica informacion en la base de datos
+    * @param des
+    * @return 
+    */
     public int modificarDesempeñoBD(Desempeño des){
         int r = 0;
         try{
@@ -234,11 +242,12 @@ public class DaoDesempeño {
     }
 
     /**
-     * 
-     * @param numCedula
-     * @param idProyecto
-     * @return 
-     */
+    * Accede a datos especificos en el arreglo de desempeño utilizando el numero de cedula
+    * del trabajador y el ID proyecto como referencia.
+    * @param numCedula
+    * @param idProyecto
+    * @return 
+    */
     public Desempeño buscarDesempeño(String numCedula, int idProyecto){
         try{
             for(Desempeño des: listaDesempeño){
@@ -252,6 +261,7 @@ public class DaoDesempeño {
         }
             return null;
     }
+    
     /**
      * Busca el desempeño pero por el id de desempeño
      * @param IdDesempeño
@@ -271,10 +281,10 @@ public class DaoDesempeño {
     }
 
     /**
-     * 
-     * @param idDesempeño
-     * @return 
-     */
+    * Elimina elementos del arreglo de desempeño
+    * @param idDesempeño
+    * @return 
+    */
     public int eliminarDesempeño(int idDesempeño){
         int b = 0;
         try{
@@ -290,11 +300,18 @@ public class DaoDesempeño {
         }
             return b;
     }
-
+    /**
+    * Accede al arreglo de desempeño
+    * @return 
+    */
     public ArrayList<Desempeño> getListaDesempeño(){
             return listaDesempeño;
     }
-
+    
+    /**
+    * Carga los datos de la base de datos al arreglo desempeño
+    * @return 
+    */
     private ArrayList<Desempeño> listarDesempeño(){
         ArrayList<Desempeño> listado = new ArrayList();
         ResultSet rs = null;
@@ -332,19 +349,17 @@ public class DaoDesempeño {
     }
 
     /**
-     * 
-     * @param idDesempeño
-     * @param idProyecto
-     * @param numCedula
-     * @param fechaIngreso
-     * @param fechaSalida
-     * @param calificacion
-     * @param notasDisciplinarias
-     * @param indexNotasDisiplinarias
-     * @param razonSalida
-     * @param salario
-     * @return int
-     */
+    * Modifica elementos especificos del arreglo de desempeño
+    * @param idDesempeño
+    * @param idProyecto
+    * @param numCedula
+    * @param fechaIngreso
+    * @param fechaSalida
+    * @param calificacion
+    * @param razonSalida
+    * @param salario
+    * @return 
+    */
     public int modificarDesempeño(int idDesempeño, int idProyecto, 
             String numCedula, String fechaIngreso, String fechaSalida,
             double calificacion,
@@ -371,7 +386,13 @@ public class DaoDesempeño {
         return b;
 
     }
-
+    
+    /**
+    * Agrega elementos al arreglo de notas disciplinarias
+    * @param idDesempeño
+    * @param nota
+    * @return 
+    */
     public int agregarNotaDisciplinaria(int idDesempeño, String nota){
         int b = 0;
         try{
@@ -390,6 +411,13 @@ public class DaoDesempeño {
         return b;
     }
 
+    /**
+    * Modifica elementos del arreglo de notas disciplinarias
+    * @param idDesempeño
+    * @param notasDisciplinarias
+    * @param indice
+    * @return 
+    */
     public int modificarNotasDisciplinarias(int idDesempeño, 
             String notasDisciplinarias, 
             int indice){
@@ -413,6 +441,12 @@ public class DaoDesempeño {
         return b;
     }
 
+    /**
+    * Elimina elementos del arreglo de notas disciplinarias
+    * @param idDesempeño
+    * @param indice
+    * @return 
+    */
     public int eliminarNotasDisciplinarias(int idDesempeño, 
             int indice){
         int b = 1;
@@ -431,6 +465,11 @@ public class DaoDesempeño {
         return b;
     }
     
+    /**
+     * Busca el ID mayor, de esta forma siempre garantizamos que el ID no se repita
+     * en su asignacion automatica
+     * @return 
+     */
     public int buscarMayor(){
         int mayor = 0; 
         try{
@@ -446,4 +485,4 @@ public class DaoDesempeño {
         return mayor;
     }
     
-}//end daoDesempe�o
+}//end daoDesempeño

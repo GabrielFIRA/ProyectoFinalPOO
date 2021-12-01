@@ -8,6 +8,7 @@ package formularios;
 import dao.DaoDesempeño;
 import dao.DaoProyecto;
 import dao.DaoTrabajador;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,6 +19,7 @@ public class FrmModificarD extends javax.swing.JFrame {
     private DaoTrabajador daoT = new DaoTrabajador();
     private DaoProyecto daoP = new DaoProyecto();
     private int IdDesempeño;
+    String numCedula;
     
     
     /**
@@ -30,11 +32,13 @@ public class FrmModificarD extends javax.swing.JFrame {
         
     }
     
-    public FrmModificarD(DaoDesempeño daoD, DaoTrabajador daoT, DaoProyecto daoP, int IdDesempeño) {
+    public FrmModificarD(DaoDesempeño daoD, DaoTrabajador daoT, DaoProyecto daoP,
+            int IdDesempeño, String numCedula) {
         this.daoD = daoD;
         this.daoT = daoT;
         this.daoP = daoP;
         this.IdDesempeño = IdDesempeño;
+        this.numCedula = numCedula;
         
         initComponents();
         
@@ -44,9 +48,6 @@ public class FrmModificarD extends javax.swing.JFrame {
     }
     
     
-    public void setDao(DaoDesempeño daoD, DaoTrabajador daoT, DaoProyecto daoP, int IdDesempeño){
-        
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -80,9 +81,9 @@ public class FrmModificarD extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         TfEntrada = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnAgregarNota = new javax.swing.JButton();
+        btnEliminarNota = new javax.swing.JButton();
+        btnModificarNota = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
 
@@ -135,11 +136,26 @@ public class FrmModificarD extends javax.swing.JFrame {
         jLabel13.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
         jLabel13.setText("Opciones de Notas Disciplinarias:");
 
-        jButton1.setText("Agregar");
+        btnAgregarNota.setText("Agregar");
+        btnAgregarNota.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarNotaActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Eliminar");
+        btnEliminarNota.setText("Eliminar");
+        btnEliminarNota.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarNotaActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Modificar");
+        btnModificarNota.setText("Modificar");
+        btnModificarNota.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarNotaActionPerformed(evt);
+            }
+        });
 
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -174,11 +190,11 @@ public class FrmModificarD extends javax.swing.JFrame {
                         .addGap(30, 30, 30)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnAgregarNota, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnEliminarNota, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton3))
+                        .addComponent(btnModificarNota))
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(TfSalida, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(LbNumCedula, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -242,9 +258,9 @@ public class FrmModificarD extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAgregarNota, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminarNota, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnModificarNota, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -296,7 +312,7 @@ public class FrmModificarD extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
-        int b = daoD.modificarDesempeño(
+        int b = daoD.modificarDesempeño(//añadir codigo para modificar trabajador calificacion
                 IdDesempeño,
                 Integer.parseInt(LbIdProyecto.getText()),
                 LbNumCedula.getText(),
@@ -309,6 +325,54 @@ public class FrmModificarD extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnAgregarNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarNotaActionPerformed
+        // TODO add your handling code here:
+        String nota = JOptionPane.showInputDialog(this, "Ingrese la nota disiplinaria",
+                "Desempeño", JOptionPane.INFORMATION_MESSAGE);
+        
+        daoD.agregarNotaDisciplinaria(IdDesempeño, nota);
+        daoT.aumentarConteo(numCedula);
+    }//GEN-LAST:event_btnAgregarNotaActionPerformed
+
+    private void btnEliminarNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarNotaActionPerformed
+        // TODO add your handling code here:
+        int option = JOptionPane.showConfirmDialog(this, "");
+        
+        if(option == 0){
+            int indice = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingrese el indice de la nota"
+                    + "que desee eliminar", "Desempeño", JOptionPane.INFORMATION_MESSAGE));
+            int b = daoD.eliminarNotasDisciplinarias(IdDesempeño, indice);
+            if(b == 1){
+                JOptionPane.showMessageDialog(this, "Nota eliminada satisfactoriamente...",
+                        "Desempeño", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Error inesperado...", "Desempeño",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        
+    }//GEN-LAST:event_btnEliminarNotaActionPerformed
+
+    private void btnModificarNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarNotaActionPerformed
+        // TODO add your handling code here:
+        int indice = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingrese el indice de la nota"
+                + "que desee eliminar", "Desempeño", JOptionPane.INFORMATION_MESSAGE));
+
+        String nota = JOptionPane.showInputDialog(this, "Ingrese la nueva nota"
+                + " disciplinaria", "Desempeño", JOptionPane.INFORMATION_MESSAGE);
+        
+        int b = daoD.modificarNotasDisciplinarias(IdDesempeño, nota, indice);
+        if(b == 1){
+            JOptionPane.showMessageDialog(this, "Nota modificada satisfactoriamente...",
+                    "Desempeño", JOptionPane.INFORMATION_MESSAGE);
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Error inesperado...", "Desempeño",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnModificarNotaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -355,11 +419,11 @@ public class FrmModificarD extends javax.swing.JFrame {
     private javax.swing.JTextField TfPuesto;
     private javax.swing.JTextField TfSalario;
     private javax.swing.JTextField TfSalida;
+    private javax.swing.JButton btnAgregarNota;
+    private javax.swing.JButton btnEliminarNota;
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnModificarNota;
     private javax.swing.JButton btnVolver;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

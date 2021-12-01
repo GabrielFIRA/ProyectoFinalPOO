@@ -27,6 +27,11 @@ public class DaoTrabajador {
     public void finalize() throws Throwable {
 
     }
+    
+    /**
+    * Establece conexion con la base de datos y prepara los enunciados
+    * a insertar en el Query
+    */
     public DaoTrabajador(){
         try{
 
@@ -60,6 +65,14 @@ public class DaoTrabajador {
      * @param numSeguroSocial
      * @return 
      */
+    
+    /**
+    * Agrega elementos al arreglo de trabajadores
+    * @param nombres
+    * @param apellidos
+    * @param numCedula
+    * @param numSeguroSocial
+    */
     public int agregarTrabajador(String nombres, String apellidos, 
             String numCedula, String numSeguroSocial){
         int b = 0;
@@ -81,6 +94,11 @@ public class DaoTrabajador {
             return b;
     }
 
+    /**
+    * Actualiza la base de datos e informa al usuario si las acciones fueron
+    * ejecutadas con exito y/o si ocurrieron errores
+    * @return 
+    */
     public String actualizarBD(){
         String msn = "";
         String msnError = "Errores en: ";
@@ -131,9 +149,10 @@ public class DaoTrabajador {
     }
 
     /**
-     * 
-     * @param trabajador
-     */
+    * Agrega datos de trabajador a la base de datos
+    * @param trabajador
+    * @return 
+    */
     public int agregarTrabajadorBD(Trabajador trabajador){
         int r = 0;
         try{
@@ -158,10 +177,10 @@ public class DaoTrabajador {
     }
 
     /**
-     * 
-     * @param trabajador
-     * @return int
-     */
+    * Elimina datos de trabajador de la base de datos
+    * @param trabajador
+    * @return 
+    */
     public int eliminarTrabajadorBD(Trabajador trabajador){
         int r = 0;
         try{
@@ -177,10 +196,10 @@ public class DaoTrabajador {
     }
 
     /**
-     * 
-     * @param trabajador
-     * @return 
-     */
+    * Modifica datos de trabajador en la base de datos
+    * @param trabajador
+    * @return 
+    */
     public int modificarTrabajadorBD(Trabajador trabajador){
         int r = 0;
         try{
@@ -203,10 +222,10 @@ public class DaoTrabajador {
     }
 
     /**
-     * 
-     * @param numCedula
- * @return 
-     */
+    * Accede a datos especificos en el arreglo Trabajador
+    * @param numCedula
+    * @return 
+    */
     public Trabajador buscarTrabajador(String numCedula){
         try{
             for(Trabajador tra: listaTrabajador){
@@ -221,9 +240,9 @@ public class DaoTrabajador {
     }
 
     /**
-     * 
-     * @param numCedula
-     */
+    * Elimina elementos del arreglo Trabajador
+    * @param numCedula
+    */
     public int eliminarTrabajador(String numCedula){
         int b = 0;
         try{
@@ -240,11 +259,19 @@ public class DaoTrabajador {
             return b;
     }
 
+    /**
+    * Accede al arreglo de trabajadores
+    * @return 
+    */
     public ArrayList<Trabajador> getListaTrabajador(){
 
             return listaTrabajador;
     }
 
+    /**
+    * Carga los datos de la base de datos al arreglo Trabajador
+    * @return 
+    */
     private ArrayList<Trabajador> listarTrabajadores(){
         ArrayList<Trabajador> listado = null;
         ResultSet rs = null;
@@ -277,13 +304,13 @@ public class DaoTrabajador {
     }
 
     /**
-     * 
-     * @param nombres
-     * @param apellidos
-     * @param numCedula
-     * @param numSeguroSocial
- * @return 
-     */
+    * Modifica elementos del arreglo Trabajador
+    * @param nombres
+    * @param apellidos
+    * @param numCedula
+    * @param numSeguroSocial
+    * @return 
+    */
     public int modificarTrabajador(String nombres, String apellidos,
             String numCedula, String numSeguroSocial){
         int b = 0;
@@ -305,6 +332,12 @@ public class DaoTrabajador {
 
             return b;
     }
+    
+    /**
+    * Aumenta el contador de notas disiplinarias del trabajador
+    * @param numCedula
+    * @return 
+    */
     public int aumentarConteo(String numCedula){
         int b = 0;
         try{
@@ -313,6 +346,7 @@ public class DaoTrabajador {
                     int temp = t.getContNotasDisciplinarias();
                     temp ++;
                     t.setContNotasDisciplinarias(temp);
+                    t.setEstado(2);
                     b = 1;
                     return b;
                 }
@@ -321,5 +355,24 @@ public class DaoTrabajador {
             ex.printStackTrace();
         }
         return b;
+    }
+    
+    /**
+     * Establece si el trabajador es considerado inapropiado
+     * @param numCedula
+     * @return 
+     */
+    public int establecerInapropiado(String numCedula){
+        boolean inapropiado = false;
+        try{
+            for(Trabajador t: listaTrabajador){
+                if(t.getNumCedula().equals(numCedula)){
+                    t.setApropiado(inapropiado);
+                }
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return 0;
     }
 }//end DaoTrabajador

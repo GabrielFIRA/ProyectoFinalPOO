@@ -30,6 +30,10 @@ public class DaoProyecto {
     public void finalize() throws Throwable {
 
     }
+    /**
+    * Establece conexion con la base de datos y prepara los enunciados
+    * a insertar en el Query
+    */
     public DaoProyecto(){
         try{
             conn = conexion.obtenerConexion();
@@ -53,6 +57,11 @@ public class DaoProyecto {
 
     }
 
+    /**
+    * Actualiza la base de datos e informa al usuario si las acciones fueron
+    * ejecutadas con exito y/o si ocurrieron errores
+    * @return 
+    */
     public String actualizarBD(){
         String msn ="";
         String msnError = "Errores en:";
@@ -103,11 +112,11 @@ public class DaoProyecto {
     }
 
     /**
-     * 
- * @param idProyecto
-     * @param nombreProyecto
- * @return 
-     */
+    * Agrega elementos al arreglo de proyectos
+    * @param idProyecto
+    * @param nombreProyecto
+    * @return 
+    */
     public int agregarProyecto(int idProyecto, String nombreProyecto){
         int b = 0;
         try{
@@ -124,10 +133,10 @@ public class DaoProyecto {
     }
 
     /**
-     * 
- * @param proyecto
- * @return 
-     */
+    * Agrega datos de proyecto a la base de datos
+    * @param proyecto
+    * @return 
+    */
     public int agregarProyectoBD(Proyecto proyecto){
         int r = 0;
         try{
@@ -145,10 +154,10 @@ public class DaoProyecto {
     }
 
     /**
-     * 
-     * @param idProyecto
- * @return 
-     */
+    * Accede a datos especificos en el arreglo de proyectos
+    * @param idProyecto
+    * @return 
+    */
     public Proyecto buscarProyecto(int idProyecto){
         try{
             for(Proyecto pro: listaProyecto){
@@ -163,10 +172,10 @@ public class DaoProyecto {
     }
 
     /**
-     * 
-     * @param idProyecto
- * @return 
-     */
+    * Elimina elementos del arreglo Proyecto
+    * @param idProyecto
+    * @return 
+    */
     public int eliminarProyecto(int idProyecto){
         int b = 0;
         try{
@@ -184,10 +193,10 @@ public class DaoProyecto {
     }
 
     /**
-     * 
- * @param proyecto
- * @return 
-     */
+    * Elimina datos de proyecto en la base de datos
+    * @param proyecto
+    * @return 
+    */
     public int eliminarProyectoBD(Proyecto proyecto){
         int r = 0;
         try{
@@ -202,11 +211,19 @@ public class DaoProyecto {
             return r;
     }
 
+    /**
+    * Accede al arreglo de proyectos
+    * @return 
+    */
     public ArrayList<Proyecto> getListaProyecto(){
 
             return listaProyecto;
     }
 
+    /**
+    * Muestra los proyectos registrados en la base de datos
+    * @return 
+    */
     private ArrayList<Proyecto> listarProyecto(){
         ArrayList<Proyecto> listado = null;
         ResultSet rs = null;
@@ -238,11 +255,11 @@ public class DaoProyecto {
     }
 
     /**
-     * 
-     * @param idProyecto
-     * @param nombreProyecto
- * @return 
-     */
+    * Modifica los elementos del arreglo de proyectos
+    * @param idProyecto
+    * @param nombreProyecto
+    * @return 
+    */
     public int modificarProyecto(int idProyecto, String nombreProyecto){
         int b = 0;
         try{
@@ -262,13 +279,9 @@ public class DaoProyecto {
     }
 
     /**
- * @param proyecto
- * @pn b;
-    }
-
-    /**
- * @return 
-     */
+    * Modifica los datos de proyecto en la base de datos
+    * @return 
+    */
     public int modificarProyectoBD(Proyecto proyecto){
         int r = 0;
         try{
@@ -282,6 +295,11 @@ public class DaoProyecto {
             return r;
     }
     
+    /**
+     * Busca el ID mayor en el arreglo para asi asegurar que el ID no se repita a
+     * la hora de añadir un proyecto con un mecanismo de asignacion de ID automatico
+     * @return 
+     */
     public int buscarIdMayor(){
         int mayor = 0; 
         try{
