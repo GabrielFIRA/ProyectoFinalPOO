@@ -344,7 +344,7 @@ public class FrmModificarD extends javax.swing.JFrame {
 
     private void btnEliminarNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarNotaActionPerformed
         // TODO add your handling code here:
-        int option = JOptionPane.showConfirmDialog(this, "");
+        int option = JOptionPane.showConfirmDialog(this, "Seguro que desea eliminar?");
         
         if(option == 0){
             int indice = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingrese el indice de la nota"
