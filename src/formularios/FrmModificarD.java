@@ -322,13 +322,20 @@ public class FrmModificarD extends javax.swing.JFrame {
                 TfSalida.getText(),
                 Double.parseDouble(TfSalario.getText())
         );
-        
+        if(Double.parseDouble(TfCalificacion.getText()) < 6){
+            daoT.establecerInapropiado(LbNumCedula.getText());
+        }
+        if(b == 1){ JOptionPane.showMessageDialog(this, "Registro modificado",
+                " Desempeño", JOptionPane.INFORMATION_MESSAGE);
+        }else{
+                JOptionPane.showMessageDialog(this, "Error inseperado");
+        }
         
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnAgregarNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarNotaActionPerformed
         // TODO add your handling code here:
-        String nota = JOptionPane.showInputDialog(this, "Ingrese la nota disiplinaria",
+        String nota = JOptionPane.showInputDialog(this, "Ingrese la nota disciplinaria",
                 "Desempeño", JOptionPane.INFORMATION_MESSAGE);
         
         daoD.agregarNotaDisciplinaria(IdDesempeño, nota);

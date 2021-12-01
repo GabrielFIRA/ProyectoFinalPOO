@@ -368,6 +368,7 @@ public class DaoTrabajador {
             for(Trabajador t: listaTrabajador){
                 if(t.getNumCedula().equals(numCedula)){
                     t.setApropiado(inapropiado);
+                    t.setEstado(2);
                 }
             }
         }catch(Exception ex){

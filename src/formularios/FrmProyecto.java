@@ -310,6 +310,7 @@ public class FrmProyecto extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, msn, "Actualizar Base de Datos",
                 JOptionPane.INFORMATION_MESSAGE);
         posActual = 0;
+        lista = new DaoProyecto();
         mostrarEnTF(posActual);
     }//GEN-LAST:event_btnActualizarTActionPerformed
 

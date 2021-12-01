@@ -225,12 +225,12 @@ public class DaoDesempeño {
             modificarDesempeño.setString(4, temp[1]);
             modificarDesempeño.setString(5, temp[2]);
             modificarDesempeño.setString(6, des.getNumCedula());
-            modificarDesempeño.setString(8, des.getPuesto());
-            modificarDesempeño.setString(9, des.getRazonSalida());
-            modificarDesempeño.setDouble(10, des.getSalario());
-            modificarDesempeño.setString(11, des.getFechaIngreso());
-            modificarDesempeño.setString(12, des.getFechaSalida());
-            modificarDesempeño.setInt(13, des.getIdDesempeño());
+            modificarDesempeño.setString(7, des.getPuesto());
+            modificarDesempeño.setString(8, des.getRazonSalida());
+            modificarDesempeño.setDouble(9, des.getSalario());
+            modificarDesempeño.setString(10, des.getFechaIngreso());
+            modificarDesempeño.setString(11, des.getFechaSalida());
+            modificarDesempeño.setInt(12, des.getIdDesempeño());
 
             r = modificarDesempeño.executeUpdate();
         }catch(SQLException ex){
@@ -320,9 +320,10 @@ public class DaoDesempeño {
             rs = mostrarDesempeño.executeQuery();
             listado = new ArrayList<>();
             while(rs.next()){
+                
                 temp[0] = rs.getString("notaDisciplinaria1");
                 temp[1] = rs.getString("notaDisciplinaria2");
-                temp[2] = rs.getString("notadisciplinaria3");
+                temp[2] = rs.getString("notaDisciplinaria3");
                 listado.add(new Desempeño(rs.getDouble("calificacion"),
                         1, 
                         rs.getString("fechaIngreso"), 

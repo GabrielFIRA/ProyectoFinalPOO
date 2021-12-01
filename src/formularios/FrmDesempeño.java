@@ -47,6 +47,7 @@ public class FrmDesempeño extends javax.swing.JFrame {
             
             LbIdProyecto.setText("" + IdProyecto);
             LbNumCedula.setText("" + numCedula);
+            esNuevo=false;
             
             
             if(daoD.buscarDesempeño(numCedula, IdProyecto) != null ){
@@ -63,7 +64,7 @@ public class FrmDesempeño extends javax.swing.JFrame {
                 limpiar();
             }
             
-            esNuevo=false;
+            
 
             int ultReg1 = daoT.getListaTrabajador().size();
             int ultReg2 = daoP.getListaProyecto().size();
@@ -86,6 +87,10 @@ public class FrmDesempeño extends javax.swing.JFrame {
         TfCalificacion.setText("");
         TfSalario.setText("");
         TfRazon.setText("");
+        TfFechaI.setText("");
+        TfFechaS.setText("");
+
+        
     }
     
 
@@ -203,6 +208,11 @@ public class FrmDesempeño extends javax.swing.JFrame {
         btnActualizarBD.setFocusable(false);
         btnActualizarBD.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnActualizarBD.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnActualizarBD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarBDActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btnActualizarBD);
         jToolBar1.add(jSeparator5);
 
@@ -294,6 +304,11 @@ public class FrmDesempeño extends javax.swing.JFrame {
 
         CbNotas.setBackground(new java.awt.Color(255, 153, 102));
         CbNotas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nota 1", "Nota 2", "Nota 3" }));
+        CbNotas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CbNotasActionPerformed(evt);
+            }
+        });
 
         btnMostarNota.setText("Mostrar Nota");
         btnMostarNota.addActionListener(new java.awt.event.ActionListener() {
@@ -501,7 +516,8 @@ public class FrmDesempeño extends javax.swing.JFrame {
         
         int b;
         if(esNuevo){
-            if(!daoD.getListaDesempeño().isEmpty()){
+            int mayor = daoD.buscarMayor();
+            if(daoD.getListaDesempeño().isEmpty()){
                 b = daoD.agregarDesempeño(
                         Double.parseDouble(TfCalificacion.getText()),
                         TfFechaI.getText(),
@@ -512,9 +528,12 @@ public class FrmDesempeño extends javax.swing.JFrame {
                         Double.parseDouble(TfSalario.getText()),
                         Integer.parseInt(LbIdProyecto.getText()),
                         LbNumCedula.getText());
+                if(Double.parseDouble(TfCalificacion.getText()) < 6){
+                    daoT.establecerInapropiado(LbNumCedula.getText());
+                }
             }
             else{
-                int mayor = daoD.buscarMayor();
+                
                 b = daoD.agregarDesempeño(
                         Double.parseDouble(TfCalificacion.getText()),
                         TfFechaI.getText(),
@@ -525,6 +544,9 @@ public class FrmDesempeño extends javax.swing.JFrame {
                         Double.parseDouble(TfSalario.getText()),
                         Integer.parseInt(LbIdProyecto.getText()),
                         LbNumCedula.getText());
+                if(Double.parseDouble(TfCalificacion.getText()) < 6){
+                    daoT.establecerInapropiado(LbNumCedula.getText());
+                }
             }
         }
         else{
@@ -549,24 +571,27 @@ public class FrmDesempeño extends javax.swing.JFrame {
 
     private void btnMostarNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostarNotaActionPerformed
         // TODO add your handling code here:
-        String numCedula = daoT.getListaTrabajador().get(posActualTrab).getNumCedula();
-        int IdProyecto = daoP.getListaProyecto().get(posActualTrab).getIdProyecto();
-        String notas[] = daoD.buscarDesempeño(numCedula, IdProyecto).getNotasDisciplinarias();
+        String Cedula = LbNumCedula.getText();
+        
+        int IdProyecto = Integer.parseInt(LbIdProyecto.getText());
+        
+        String notas[] = daoD.buscarDesempeño(Cedula, IdProyecto).getNotasDisciplinarias();
+        System.out.println(notas[0]);
         
         if(!notas[0].equals("") && CbNotas.getSelectedIndex() == 0){
-            JOptionPane.showMessageDialog(this, "Nota Disiplinaria:" + "\n" + 
+            JOptionPane.showMessageDialog(this, "Nota Disciplinaria:" + "\n" + 
                     notas[0], "Desempeño", JOptionPane.INFORMATION_MESSAGE);
         }
         else if(!notas[1].equals("") && CbNotas.getSelectedIndex() == 1){
-            JOptionPane.showMessageDialog(this, "Nota Disiplinaria:" + "\n" + 
+            JOptionPane.showMessageDialog(this, "Nota Disciplinaria:" + "\n" + 
                     notas[1], "Desempeño", JOptionPane.INFORMATION_MESSAGE);
         }
         else if(!notas[2].equals("") && CbNotas.getSelectedIndex() == 2){
-            JOptionPane.showMessageDialog(this, "Nota Disiplinaria:" + "\n" + 
+            JOptionPane.showMessageDialog(this, "Nota Disciplinaria:" + "\n" + 
                     notas[2], "Desempeño", JOptionPane.INFORMATION_MESSAGE);
         }
         else{
-            JOptionPane.showMessageDialog(this, "No hay notas disiplinarias", 
+            JOptionPane.showMessageDialog(this, "No hay notas disciplinarias", 
                     "Desempeño", JOptionPane.WARNING_MESSAGE);
         }
         
@@ -613,6 +638,25 @@ public class FrmDesempeño extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnActualizarBDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarBDActionPerformed
+        // TODO add your handling code here:
+        String msn1 = daoD.actualizarBD();
+        String msn2 = daoT.actualizarBD();
+        JOptionPane.showMessageDialog(this, msn1, "Desempeño: Actualizar Base de Datos",
+                JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, msn2, "Trabajador: Actualizar Base de Datos",
+                JOptionPane.INFORMATION_MESSAGE);
+        posActualProy = 0;
+        posActualTrab = 0;
+        daoD = new DaoDesempeño();
+        daoT = new DaoTrabajador();
+        mostrarEnTF(posActualTrab, posActualProy);
+    }//GEN-LAST:event_btnActualizarBDActionPerformed
+
+    private void CbNotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CbNotasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CbNotasActionPerformed
 
 
 
